@@ -5,7 +5,7 @@
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2.19.0/dist/bootstrap-vue.min.css">
     <style>
         g.mvp circle {
-            stroke-width: 4px;
+            stroke-width: 3px;
             stroke: black;
             fill: white;
         }
@@ -34,8 +34,8 @@
             fill:white;
         }
 
-        oop {
-            opacity: 65%;
+        g.oop {
+            opacity: 0.35;
         }
 
     </style>
@@ -52,15 +52,16 @@
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="disc.brand" :transform="'translate('+disc.x+','+disc.y+')'">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+disc.x+','+disc.y+')'">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
-<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle">{{disc.name}}</text>
+<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area">{{disc.name}}</text>
 </g>`,
     props : ['disc',],
     data() {
         return {
             "disc_radius" : 25,
-            "disc_area" : 45,
+            "disc_area" : 48,
+            "text_area" : 42,
         }
     }
  });
@@ -68,7 +69,7 @@
     "el" : "#chart",
     data() {
         return {
-            "discs" : [
+            "discs" : [ //In drawn order
                 {
                     "name" : "Nomad",
                     "brand" : "mvp",
@@ -88,6 +89,69 @@
                     "brand" : "streamline",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
                     "x" : 900, "y" : 780,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Particle",
+                    "brand" : "mvp",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 75, "y" : 680,
+                    "oop" : true,
+                },
+                {
+                    "name" : "Entropy",
+                    "brand" : "mvp",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 50, "y" : 680,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Stabilizer",
+                    "brand" : "streamline",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 150, "y" : 680,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Envy",
+                    "brand" : "axiom",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 250, "y" : 680,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Atom",
+                    "brand" : "mvp",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 350, "y" : 680,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Proxy",
+                    "brand" : "axiom",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 450, "y" : 680,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Ion",
+                    "brand" : "mvp",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 250, "y" : 580,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Anode",
+                    "brand" : "mvp",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 450, "y" : 580,
+                    "oop" : false,
+                },
+                {
+                    "name" : "Spin",
+                    "brand" : "mvp",
+                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
+                    "x" : 800, "y" : 580,
                     "oop" : false,
                 },
             ],
