@@ -1,5 +1,6 @@
 <html>
 <head>
+    <title>Interactive MVP Flight Chart in SVG</title>
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2.19.0/dist/bootstrap-vue.min.css">
     <style>
@@ -41,11 +42,8 @@
 </head>
 <body>
 <div id="chart">
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="8in" viewBox="0 0 1296 864" enable-background="new 0 0 864 576" version="1.1" x="0px" width="10in" y="0px">
-<g v-for="disc in discs" class="{{$disc.brand}}" transform="translate({{$disc.x}}, {{$disc.y}})">
-<circle cx="25" cy="25" r="50"></circle>
-<text>{{disc.name}}</text>
-</g>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="8in" viewBox="0 0 1296 864" enable-background="new 0 0 1296 864" version="1.1" x="0px" width="10in" y="0px">
+<lid v-for="disc in discs" :key="disc.name" :disc="disc"></lid>
 </svg>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
@@ -53,6 +51,19 @@
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 <script type="text/javascript">
 'use strict';
+ Vue.component("lid", {
+    template : `<g :class="disc.brand" :transform="'translate('+disc.x+','+disc.y+')'">
+<circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
+<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle">{{disc.name}}</text>
+</g>`,
+    props : ['disc',],
+    data() {
+        return {
+            "disc_radius" : 25,
+            "disc_area" : 45,
+        }
+    }
+ });
  new Vue({
     "el" : "#chart",
     data() {
@@ -62,21 +73,21 @@
                     "name" : "Nomad",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 750, "y" : 560,
+                    "x" : 700, "y" : 780,
                     "oop" : false,
                 },
                 {
                     "name" : "Ohm",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 5, "turn" : 0, "fade" : 1,
-                    "x" : 800, "y" : 560,
+                    "x" : 800, "y" : 780,
                     "oop" : false,
                 },
                 {
                     "name" : "Pilot",
                     "brand" : "streamline",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 850, "y" : 560,
+                    "x" : 900, "y" : 780,
                     "oop" : false,
                 },
             ],
