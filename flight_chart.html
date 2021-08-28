@@ -42,7 +42,9 @@
 </head>
 <body>
 <div id="chart">
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="8in" viewBox="0 0 1296 864" enable-background="new 0 0 1296 864" version="1.1" x="0px" width="10in" y="0px">
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="10in" viewBox="0 0 1296 1296" enable-background="new 0 0 1296 1296" version="1.1" x="0px" width="10in" y="0px">
+<rect x="0" y="0" width="1296" height="1296" fill="white" stroke-width="4px" stroke="black"></rect>
+
 <lid v-for="disc in discs" :key="disc.name" :disc="disc"></lid>
 </svg>
 </div>
@@ -52,107 +54,142 @@
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+disc.x+','+disc.y+')'">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+disc.x+','+calculate_y(disc)+')'">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
-<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area">{{disc.name}}</text>
+<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area*1.5" lengthAdjust="spacingAndGlyphs">{{disc.name}}</text>
 </g>`,
-    props : ['disc',],
+    props : ['disc', 'rims'],
     data() {
         return {
-            "disc_radius" : 25,
-            "disc_area" : 48,
-            "text_area" : 42,
+            "disc_radius" : 30,
+            "disc_area" : 30,
+            "text_area" : 34,
         }
+    },
+    methods : {
+        calculate_y(disc) {
+            //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
+            //Reserving to the top 150 pixels for banner, stability bar, etc.
+            var disc_area_height = 1296 - 150;
+            var row_height = disc_area_height / 13;
+            return 1296 - (row_height * disc.row);
+        },
     }
  });
  new Vue({
     "el" : "#chart",
     data() {
         return {
+            "rims" : {
+                "9mm" : {
+                    "speed" : 2, "row" : 13,
+                },
+                "10mm" : {
+                    "speed" : 3, "row" : 12,
+                },
+                "11mm" : {
+                    "speed" : 2.5, "row" : 11,
+                },
+                "12mm" : {
+                    "speed" : 4, "row" : 10,
+                },
+            },
             "discs" : [ //In drawn order
                 {
                     "name" : "Nomad",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 700, "y" : 780,
+                    "x" : 700, "row" : 1,
                     "oop" : false,
+                    "plastics" : ["Electron", "Plasma"],
                 },
                 {
                     "name" : "Ohm",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 5, "turn" : 0, "fade" : 1,
-                    "x" : 800, "y" : 780,
+                    "x" : 800, "row" : 1,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Pilot",
                     "brand" : "streamline",
-                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 900, "y" : 780,
+                    "speed" :  2, "glide" : 5, "turn" : 0, "fade" : 1,
+                    "x" : 900, "row" : 1,
                     "oop" : false,
+                    "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Eclipse"],
                 },
                 {
                     "name" : "Particle",
                     "brand" : "mvp",
-                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 75, "y" : 680,
+                    "speed" :  3, "glide" : 3, "turn" : 0, "fade" : 2.5,
+                    "x" : 75, "row" : 2,
                     "oop" : true,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Entropy",
                     "brand" : "mvp",
-                    "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 50, "y" : 680,
+                    "speed" :  4, "glide" : 3, "turn" : 0, "fade" : 3,
+                    "x" : 50, "row" : 2,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Stabilizer",
                     "brand" : "streamline",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 150, "y" : 680,
+                    "x" : 150, "row" : 2,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Envy",
                     "brand" : "axiom",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 250, "y" : 680,
+                    "x" : 250, "row" : 2,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Atom",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 350, "y" : 680,
+                    "x" : 350, "row" : 2,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Proxy",
                     "brand" : "axiom",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 450, "y" : 680,
+                    "x" : 450, "row" : 2,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Ion",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 250, "y" : 580,
+                    "x" : 250, "row" : 3,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Anode",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 450, "y" : 580,
+                    "x" : 450, "row" : 3,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
                 {
                     "name" : "Spin",
                     "brand" : "mvp",
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
-                    "x" : 800, "y" : 580,
+                    "x" : 800, "row" : 3,
                     "oop" : false,
+                    "plastics" : ["Neutron"],
                 },
             ],
         }
