@@ -38,14 +38,20 @@
             opacity: 0.35;
         }
 
+        text.rim {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
 <div id="chart">
 <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="10in" viewBox="0 0 1296 1296" enable-background="new 0 0 1296 1296" version="1.1" x="0px" width="10in" y="0px">
 <rect x="0" y="0" width="1296" height="1296" fill="white" stroke-width="4px" stroke="black"></rect>
-
-<lid v-for="disc in discs" :key="disc.name" :disc="disc"></lid>
+<text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}</text>
+<text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)"></lid>
 </svg>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
@@ -54,11 +60,11 @@
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+disc.x+','+calculate_y(disc)+')'">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+disc.x+','+y+')'">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
 <text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area*1.5" lengthAdjust="spacingAndGlyphs">{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'rims'],
+    props : ['disc', 'y'],
     data() {
         return {
             "disc_radius" : 30,
@@ -66,34 +72,61 @@
             "text_area" : 34,
         }
     },
+ });
+ new Vue({
+    "el" : "#chart",
     methods : {
-        calculate_y(disc) {
+        calculate_y(row) {
             //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
             //Reserving to the top 150 pixels for banner, stability bar, etc.
             var disc_area_height = 1296 - 150;
             var row_height = disc_area_height / 13;
-            return 1296 - (row_height * disc.row);
+            return 1296 - (row_height * row);
         },
-    }
- });
- new Vue({
-    "el" : "#chart",
+    },
     data() {
         return {
-            "rims" : {
-                "9mm" : {
-                    "speed" : 2, "row" : 13,
+            "rims" : [
+                {
+                    "width" : "9mm", "speed" : 2, "row" : 1,
                 },
-                "10mm" : {
-                    "speed" : 3, "row" : 12,
+                {
+                    "width" : "10mm", "speed" : 3, "row" : 2,
                 },
-                "11mm" : {
-                    "speed" : 2.5, "row" : 11,
+                {
+                    "width" : "11mm", "speed" : 2.5, "row" : 3,
                 },
-                "12mm" : {
-                    "speed" : 4, "row" : 10,
+                {
+                    "width" : "12mm", "speed" : 4, "row" : 4,
                 },
-            },
+                {
+                    "width" : "13mm", "speed" : 5, "row" : 5,
+                },
+                {
+                    "width" : "14.5mm", "speed" : 5, "row" : 6,
+                },
+                {
+                    "width" : "16mm", "speed" : 6, "row" : 7,
+                },
+                {
+                    "width" : "16.5mm", "speed" : 6.5, "row" : 8,
+                },
+                {
+                    "width" : "18mm", "speed" : 8, "row" : 9,
+                },
+                {
+                    "width" : "18.5mm", "speed" : 9, "row" : 10,
+                },
+                {
+                    "width" : "21mm", "speed" : 11, "row" : 11,
+                },
+                {
+                    "width" : "23mm", "speed" : 13, "row" : 12,
+                },
+                {
+                    "width" : "24.5mm", "speed" : 14.5, "row" : 13,
+                },
+            ],
             "discs" : [ //In drawn order
                 {
                     "name" : "Nomad",
