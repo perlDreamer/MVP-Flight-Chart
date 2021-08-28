@@ -41,6 +41,7 @@
         text.rim {
             font-size: 20px;
             font-weight: bold;
+            stroke: black;
         }
 
     </style>
@@ -48,7 +49,17 @@
 <body>
 <div id="chart">
 <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="10in" viewBox="0 0 1296 1296" enable-background="new 0 0 1296 1296" version="1.1" x="0px" width="10in" y="0px">
+<defs>
+    <linearGradient id="blueGradient">
+        <stop offset="0%" stop-color="#3645e3"/>
+        <stop offset="100%" stop-color="#A7ACDF"/>
+    </linearGradient>
+</defs>
 <rect x="0" y="0" width="1296" height="1296" fill="white" stroke-width="4px" stroke="black"></rect>
+<rect width="700" :x="(1296-700)/2" :y="calculate_y(3)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(0)-calculate_y(3)" /> 
+<rect width="850" :x="(1296-850)/2" :y="calculate_y(6)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(3)-calculate_y(6)" /> 
+<rect width="1000" :x="(1296-1000)/2" :y="calculate_y(9)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(6)-calculate_y(9)" /> 
+<rect width="1150" :x="(1296-1150)/2" :y="calculate_y(13)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(9)-calculate_y(13)" /> 
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}</text>
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 <lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)"></lid>
