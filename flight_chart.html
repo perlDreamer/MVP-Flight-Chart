@@ -64,6 +64,10 @@
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 <lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)"></lid>
 </svg>
+<b-modal id="extended-disc-info" centered hide-footer>
+<template #modal-title>{{info_disc.brand}}: {{info_disc.name}}</template>
+<p>This is a disc</p>
+</b-modal>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 <script src="https://unpkg.com/bootstrap-vue@2.19.0/dist/bootstrap-vue.min.js"></script>
@@ -71,9 +75,9 @@
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'" @click="openModal(disc)">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
-<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area*1.5" lengthAdjust="spacingAndGlyphs">{{disc.name}}</text>
+<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area*1.5" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
     props : ['disc', 'y'],
     data() {
@@ -81,8 +85,15 @@
             "disc_radius" : 30,
             "disc_area" : 30,
             "text_area" : 34,
+            "info_disc" : {},
         }
     },
+    methods: {
+        openModal(disc) {
+            this.info_disc = disc;
+            this.$bvModal.show("extended-disc-info");
+        }
+    }
  });
  new Vue({
     "el" : "#chart",
