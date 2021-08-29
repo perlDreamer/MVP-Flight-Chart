@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Interactive MVP Flight Chart in SVG</title>
+    <title>Interactive MVP Disc Roster and Flight Chart</title>
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2.19.0/dist/bootstrap-vue.min.css">
     <style>
@@ -44,6 +44,12 @@
             stroke: black;
         }
 
+        text.stability {
+            font-size: 24px;
+            font-weight: bold;
+            stroke: black;
+        }
+
     </style>
 </head>
 <body>
@@ -54,8 +60,17 @@
         <stop offset="0%" stop-color="#3645e3"/>
         <stop offset="100%" stop-color="#A7ACDF"/>
     </linearGradient>
+    <linearGradient id="stabilityGradient">
+        <stop offset="0%" stop-color="red"/>
+        <stop offset="50%" stop-color="yellow"/>
+        <stop offset="100%" stop-color="green"/>
+    </linearGradient>
 </defs>
 <rect x="0" y="0" width="1296" height="1296" fill="white" stroke-width="4px" stroke="black"></rect>
+<rect x="0" :y="0" width="1296" height="50px" fill="url(#stabilityGradient)"></rect>
+<text class="stability" x="5px" y="25px" dominant-baseline="middle">Over</text>
+<text class="stability" x="648px" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
+<text class="stability" x="1220px" y="25px" dominant-baseline="middle">Under</text>
 <rect width="700" :x="(1296-700)/2" :y="calculate_y(3)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(0)-calculate_y(3)" /> 
 <rect width="850" :x="(1296-850)/2" :y="calculate_y(6)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(3)-calculate_y(6)" /> 
 <rect width="1000" :x="(1296-1000)/2" :y="calculate_y(9)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(6)-calculate_y(9)" /> 
@@ -64,6 +79,9 @@
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 <lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" v-on:pickedDisc="this_disc = disc; console.log('Hit');"></lid>
 </svg>
+<div>
+Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
+</div>
 <b-modal id="extended-disc-info" centered hide-footer>
 <template #modal-title>{{info_disc.brand == 'mvp' ? 'MVP' : info_disc.brand == 'axiom' ? 'Axiom' : 'Streamline'}}: {{info_disc.name}}</template>
 <p>{{info_disc.speed}} | {{info_disc.glide}} | {{info_disc.turn}} | {{info_disc.fade}} </p>
@@ -107,8 +125,8 @@
         },
         calculate_y(row) {
             //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
-            //Reserving to the top 150 pixels for banner, stability bar, etc.
-            var disc_area_height = 1296 - 150;
+            //Reserving to the top 50 pixels for banner, stability bar, etc.
+            var disc_area_height = 1296 - 50;
             var row_height = disc_area_height / 13;
             return 1296 - (row_height * row);
         },
