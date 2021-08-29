@@ -39,7 +39,7 @@
         }
 
         text.rim {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             stroke: black;
         }
@@ -60,9 +60,9 @@
 <rect width="850" :x="(1296-850)/2" :y="calculate_y(6)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(3)-calculate_y(6)" /> 
 <rect width="1000" :x="(1296-1000)/2" :y="calculate_y(9)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(6)-calculate_y(9)" /> 
 <rect width="1150" :x="(1296-1150)/2" :y="calculate_y(13)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(9)-calculate_y(13)" /> 
-<text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}</text>
-<text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)"></lid>
+<text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}</text>
+<text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" v-on:pickedDisc="this_disc = disc; console.log('Hit');"></lid>
 </svg>
 <b-modal id="extended-disc-info" centered hide-footer>
 <template #modal-title>{{info_disc.brand}}: {{info_disc.name}}</template>
@@ -75,7 +75,7 @@
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'" @click="openModal(disc)">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'" @click="openModal()">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
 <text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area*1.5" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
@@ -85,19 +85,23 @@
             "disc_radius" : 30,
             "disc_area" : 30,
             "text_area" : 34,
-            "info_disc" : {},
         }
     },
     methods: {
-        openModal(disc) {
-            this.info_disc = disc;
+        openModal() {
             this.$bvModal.show("extended-disc-info");
+            this.$emit('pickedDisc');
+            console.log("After emit");
         }
     }
  });
  new Vue({
     "el" : "#chart",
     methods : {
+        assignDisc(disc) {
+            console.log("name = "+disc.name);
+            this.info_disc = disc;
+        },
         calculate_y(row) {
             //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
             //Reserving to the top 150 pixels for banner, stability bar, etc.
@@ -108,6 +112,7 @@
     },
     data() {
         return {
+            "info_disc" : {},
             "rims" : [
                 {
                     "width" : "9mm", "speed" : 2, "row" : 1,
