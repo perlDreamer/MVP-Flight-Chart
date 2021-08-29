@@ -65,8 +65,11 @@
 <lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" v-on:pickedDisc="this_disc = disc; console.log('Hit');"></lid>
 </svg>
 <b-modal id="extended-disc-info" centered hide-footer>
-<template #modal-title>{{info_disc.brand}}: {{info_disc.name}}</template>
-<p>This is a disc</p>
+<template #modal-title>{{info_disc.brand == 'mvp' ? 'MVP' : info_disc.brand == 'axiom' ? 'Axiom' : 'Streamline'}}: {{info_disc.name}}</template>
+<p>{{info_disc.speed}} | {{info_disc.glide}} | {{info_disc.turn}} | {{info_disc.fade}} </p>
+<p><b>Plastics:</b><br>
+<span v-for="plastic in info_disc.plastics">{{plastic}}<br></span>
+</p>
 </b-modal>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
@@ -109,6 +112,9 @@
             var row_height = disc_area_height / 13;
             return 1296 - (row_height * row);
         },
+    },
+    mounted() {
+        this.info_disc = this.discs[0];
     },
     data() {
         return {
