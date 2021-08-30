@@ -98,7 +98,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
  Vue.component("lid", {
     template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'" @click="openModal()">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
-<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="text_area*1.5" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
+<text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
     props : ['disc', 'y'],
     data() {
