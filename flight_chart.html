@@ -38,6 +38,10 @@
             opacity: 0.35;
         }
 
+        p.oop {
+            font-style: italic;
+        }
+
         text.rim {
             font-size: 18px;
             font-weight: bold;
@@ -82,8 +86,9 @@
 <div>
 Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
 </div>
-<b-modal id="extended-disc-info" centered hide-footer>
+<b-modal size="sm" id="extended-disc-info" centered hide-footer>
 <template #modal-title>{{info_disc.brand == 'mvp' ? 'MVP' : info_disc.brand == 'axiom' ? 'Axiom' : 'Streamline'}}: {{info_disc.name}}</template>
+<p v-if="info_disc.oop" class="oop">Out of Print</p>
 <p>{{info_disc.speed}} | {{info_disc.glide}} | {{info_disc.turn}} | {{info_disc.fade}} </p>
 <p><b>Plastics:</b><br>
 <span v-for="plastic in info_disc.plastics">{{plastic}}<br></span>
