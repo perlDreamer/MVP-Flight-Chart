@@ -111,7 +111,6 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
     methods: {
         openModal() {
             this.$emit('pickeddisc');
-            console.log("After emit");
             this.$bvModal.show("extended-disc-info");
         }
     }
@@ -120,7 +119,6 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
     "el" : "#chart",
     methods : {
         discPicked(disc) {
-            console.log("name = "+disc.name);
             this.info_disc = disc;
         },
         calculate_y(row) {
