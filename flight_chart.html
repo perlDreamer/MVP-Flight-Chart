@@ -77,7 +77,7 @@
 <rect width="1150" :x="(1296-1150)/2" :y="calculate_y(13)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(9)-calculate_y(13)" /> 
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}</text>
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" v-on:pickedDisc="this_disc = disc; console.log('Hit');"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <div>
 Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
@@ -110,16 +110,16 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
     },
     methods: {
         openModal() {
-            this.$bvModal.show("extended-disc-info");
-            this.$emit('pickedDisc');
+            this.$emit('pickeddisc');
             console.log("After emit");
+            this.$bvModal.show("extended-disc-info");
         }
     }
  });
  new Vue({
     "el" : "#chart",
     methods : {
-        assignDisc(disc) {
+        discPicked(disc) {
             console.log("name = "+disc.name);
             this.info_disc = disc;
         },
