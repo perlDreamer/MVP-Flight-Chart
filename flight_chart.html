@@ -93,11 +93,13 @@
 <rect width="1150" :x="(1296-1150)/2" :y="calculate_y(14)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(10)-calculate_y(14)" /> 
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}</text>
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" :show_mvp="show_mvp" :show_oop="show_oop" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" :show_mvp="show_mvp" :show_oop="show_oop" :show_axiom="show_axiom" :show_streamline="show_streamline" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <div>
-<b-form-checkbox v-model="show_mvp" button>MVP</b-form-checkbox>
 <b-form-checkbox v-model="show_oop" button>Out of Production</b-form-checkbox>
+<b-form-checkbox v-model="show_mvp" button>MVP</b-form-checkbox>
+<b-form-checkbox v-model="show_axiom" button>Axiom</b-form-checkbox>
+<b-form-checkbox v-model="show_streamline" button>Streamline</b-form-checkbox>
 <br>
 MVP: {{show_mvp}} OOP: {{show_oop}}
 </div>
@@ -119,11 +121,11 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'" :visible="handle_filter(show_mvp, show_oop, disc)" @click="openModal()">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'" v-show="handle_filter(show_mvp, show_axiom, show_streamline, show_oop, disc)" @click="openModal()">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
 <text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'y', 'show_mvp', 'show_oop'],
+    props : ['disc', 'y', 'show_mvp', 'show_oop', 'show_axiom', 'show_streamline'],
     data() {
         return {
             "disc_radius" : 30,
@@ -136,18 +138,22 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
             this.$emit('pickeddisc');
             this.$bvModal.show("extended-disc-info");
         },
-    },
-    computed: {
-        handle_filter(show_mvp, show_oop, disc) {
+        handle_filter(show_mvp, show_axiom, show_streamline, show_oop, disc) {
             if (disc.oop && !show_oop) {
-                return "hidden";
+                return false;
             }
-            if (disc.mvp && !show_mvp) {
-                return "hidden";
+            if (disc.brand == "mvp" && !show_mvp) {
+                return false;
             }
-            return "visible";
+            if (disc.brand == "axiom" && !show_axiom) {
+                return false;
+            }
+            if (disc.brand == "streamline" && !show_streamline) {
+                return false;
+            }
+            return true;
         },
-    }
+    },
  });
  new Vue({
     "el" : "#chart",
@@ -169,6 +175,8 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
     data() {
         return {
             "show_mvp": true,
+            "show_axiom": true,
+            "show_streamline": true,
             "show_oop": true,
             "info_disc" : {},
             "rims" : [
