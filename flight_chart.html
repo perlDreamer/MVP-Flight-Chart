@@ -96,12 +96,10 @@
 <lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(disc.row)" :show_mvp="show_mvp" :show_oop="show_oop" :show_axiom="show_axiom" :show_streamline="show_streamline" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <div>
-<b-form-checkbox v-model="show_oop" button>Out of Production</b-form-checkbox>
-<b-form-checkbox v-model="show_mvp" button>MVP</b-form-checkbox>
-<b-form-checkbox v-model="show_axiom" button>Axiom</b-form-checkbox>
-<b-form-checkbox v-model="show_streamline" button>Streamline</b-form-checkbox>
-<br>
-MVP: {{show_mvp}} OOP: {{show_oop}}
+<b-form-checkbox v-model="show_oop" size="lg" switch>Out of Production</b-form-checkbox>
+<b-form-checkbox v-model="show_mvp" size="lg" switch>MVP</b-form-checkbox>
+<b-form-checkbox v-model="show_axiom" size="lg" switch>Axiom</b-form-checkbox>
+<b-form-checkbox v-model="show_streamline" size="lg" switch>Streamline</b-form-checkbox>
 </div>
 <div class="pagewidth">
 Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
