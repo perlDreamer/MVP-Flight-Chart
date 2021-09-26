@@ -84,16 +84,16 @@
 </defs>
 <rect x="0" y="0" width="1296" height="1296" fill="white" stroke-width="4px" stroke="black"></rect>
 <rect x="0" :y="0" width="1296" height="50px" fill="url(#stabilityGradient)"></rect>
-<text class="stability" x="5px" y="25px" dominant-baseline="middle">Over</text>
-<text class="stability" x="648px" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
-<text class="stability" x="1291px" y="25px" dominant-baseline="middle" text-anchor="end">Under</text>
+<text class="stability" :x="(1296-1150)/2" y="25px" dominant-baseline="middle">Over</text>
+<text class="stability" :x="1296/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
+<text class="stability" :x="(1296+1150)/2" y="25px" dominant-baseline="middle" text-anchor="end">Under</text>
 <rect width="700" :x="(1296-700)/2" :y="calculate_y(4)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(0)-calculate_y(4)" /> 
 <rect width="850" :x="(1296-850)/2" :y="calculate_y(7)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(4)-calculate_y(7)" /> 
 <rect width="1000" :x="(1296-1000)/2" :y="calculate_y(10)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(7)-calculate_y(10)" /> 
 <rect width="1150" :x="(1296-1150)/2" :y="calculate_y(14)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(10)-calculate_y(14)" /> 
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}</text>
 <text class="rim" v-for="rim in rims" :y="calculate_y(rim.row)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :y="calculate_y(calculate_row(disc))" :show_mvp="show_mvp" :show_oop="show_oop" :show_axiom="show_axiom" :show_streamline="show_streamline" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :show_mvp="show_mvp" :show_oop="show_oop" :show_axiom="show_axiom" :show_streamline="show_streamline" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <div>
 <b-form-checkbox v-model="show_oop" size="lg" switch>Out of Production</b-form-checkbox>
@@ -119,11 +119,11 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(disc.x/100*1296)+','+y+')'" v-show="handle_filter(show_mvp, show_axiom, show_streamline, show_oop, disc)" @click="openModal()">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+x+','+y+')'" v-show="handle_filter(show_mvp, show_axiom, show_streamline, show_oop, disc)" @click="openModal()">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
 <text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'y', 'show_mvp', 'show_oop', 'show_axiom', 'show_streamline'],
+    props : ['disc', 'x', 'y', 'show_mvp', 'show_oop', 'show_axiom', 'show_streamline'],
     data() {
         return {
             "disc_radius" : 30,
@@ -165,6 +165,11 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
             var disc_area_height = 1296 - 50;
             var row_height = disc_area_height / 14;
             return 1296 - (row_height * row);
+        },
+        calculate_x(disc) {
+            //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
+            //Reserving to the top 50 pixels for banner, stability bar, etc.
+            return disc.x / 100 * 1296;
         },
         calculate_row(disc) {
             var row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
