@@ -50,6 +50,11 @@
             stroke-width:4px
         }
 
+        g.sort line {
+            stroke:black;
+            stroke-width:2px
+        }
+
         text.rim {
             font-size: 18px;
             font-weight: bold;
@@ -89,14 +94,21 @@
         <stop offset="50%" stop-color="yellow"/>
         <stop offset="100%" stop-color="green"/>
     </linearGradient>
+    <marker id="arrowhead" markerWidth="5" markerHeight="5" ref0="0" refY="2.5" orient="auto">
+        <polygon points="0 0, 5 2.5, 0 5" />
+    </marker>
 </defs>
 <rect x="0" y="0" width="1296" height="1296" fill="white" stroke-width="4px" stroke="black"></rect>
 <rect x="0" :y="0" width="1296" height="50px" fill="url(#stabilityGradient)"></rect>
-<g @click="sort_rims_by_width" class="sort" transform="translate(25,5)">
+<g class="sort" transform="translate(10,5)" @click="sort_rims_by_width">
     <rect />
+    <line x1="15" y1="32" x2="15" y2="15" marker-end="url(#arrowhead)"/>
+    <line x1="25" y1="8" x2="25" y2="25"  marker-end="url(#arrowhead)"/>
 </g>
-<g @click="sort_rims_by_speed" class="sort" transform="translate(1246,5)">
+<g class="sort" transform="translate(1246,5)" @click="sort_rims_by_speed">
     <rect />
+    <line x1="15" y1="32" x2="15" y2="15" marker-end="url(#arrowhead)"/>
+    <line x1="25" y1="8" x2="25" y2="25"  marker-end="url(#arrowhead)"/>
 </g>
 <text class="stability" :x="(1296-1150)/2" y="25px" dominant-baseline="middle">Over</text>
 <text class="stability" :x="1296/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
