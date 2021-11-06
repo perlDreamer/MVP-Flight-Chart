@@ -115,8 +115,8 @@
 <text class="stability" :x="(1296+1150)/2" y="25px" dominant-baseline="middle" text-anchor="end">Under</text>
 <rect width="700" :x="(1296-700)/2" :y="calculate_y(4)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(0)-calculate_y(4)" /> 
 <rect width="850" :x="(1296-850)/2" :y="calculate_y(7)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(4)-calculate_y(7)" /> 
-<rect width="1000" :x="(1296-1000)/2" :y="calculate_y(10)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(7)-calculate_y(10)" /> 
-<rect width="1150" :x="(1296-1150)/2" :y="calculate_y(14)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(10)-calculate_y(14)" /> 
+<rect width="1000" :x="(1296-1000)/2" :y="calculate_y(11)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(7)-calculate_y(11)" /> 
+<rect width="1150" :x="(1296-1150)/2" :y="calculate_y(15)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(11)-calculate_y(15)" /> 
 <text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
 <text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 <lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :show_mvp="show_mvp" :show_oop="show_oop" :show_axiom="show_axiom" :show_streamline="show_streamline" v-on:pickeddisc="discPicked(disc);"></lid>
@@ -188,8 +188,8 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
         calculate_y(row) {
             //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
             //Reserving to the top 50 pixels for banner, stability bar, etc.
-            var disc_area_height = 1296 - 50;
-            var row_height = disc_area_height / 14;
+            var disc_area_height = 1296 - 150;
+            var row_height = disc_area_height / this.rims.length;
             return 1296 - (row_height * row);
         },
         calculate_x(disc) {
@@ -259,6 +259,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 },
                 {
                     "width" : "16.5", "speed" : 6.5
+                },
+                {
+                    "width" : "16.5", "speed" : 7
                 },
                 {
                     "width" : "18", "speed" : 8
@@ -459,6 +462,14 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "speed" :  4, "glide" : 4, "turn" : -2, "fade" : 0.5,
                     "x" : 70, "width" : "13",
                     "oop" : true,
+                    "plastics" : ["Neutron"],
+                },
+                {
+                    "name" : "Uplink",
+                    "brand" : "mvp",
+                    "speed" :  5, "glide" : 5, "turn" : -3, "fade" : 0.5,
+                    "x" : 72, "width" : "13",
+                    "oop" : false,
                     "plastics" : ["Neutron"],
                 },
                 {
