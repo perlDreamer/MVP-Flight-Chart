@@ -119,13 +119,13 @@
 <rect width="1150" :x="(1296-1150)/2" :y="calculate_y(16)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(12)-calculate_y(16)" /> 
 <text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
 <text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :show_mvp="show_mvp" :show_oop="show_oop" :show_axiom="show_axiom" :show_streamline="show_streamline" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :production_filter="production_filter" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <div>
-<b-form-checkbox v-model="show_oop" size="lg" switch>Out of Production</b-form-checkbox>
-<b-form-checkbox v-model="show_mvp" size="lg" switch>MVP</b-form-checkbox>
-<b-form-checkbox v-model="show_axiom" size="lg" switch>Axiom</b-form-checkbox>
-<b-form-checkbox v-model="show_streamline" size="lg" switch>Streamline</b-form-checkbox>
+<b-form-checkbox v-model="production_filter.show_oop" size="lg" switch>Out of Production</b-form-checkbox>
+<b-form-checkbox v-model="production_filter.show_mvp" size="lg" switch>MVP</b-form-checkbox>
+<b-form-checkbox v-model="production_filter.show_axiom" size="lg" switch>Axiom</b-form-checkbox>
+<b-form-checkbox v-model="production_filter.show_streamline" size="lg" switch>Streamline</b-form-checkbox>
 </div>
 <div class="pagewidth">
 Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
@@ -145,11 +145,11 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+x+','+y+')'" v-show="handle_filter(show_mvp, show_axiom, show_streamline, show_oop, disc)" @click="openModal()">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+x+','+y+')'" v-show="handle_filter(production_filter, disc)" @click="openModal()">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
 <text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'x', 'y', 'show_mvp', 'show_oop', 'show_axiom', 'show_streamline'],
+    props : ['disc', 'x', 'y', 'production_filter'],
     data() {
         return {
             "disc_radius" : 30,
@@ -162,17 +162,17 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
             this.$emit('pickeddisc');
             this.$bvModal.show("extended-disc-info");
         },
-        handle_filter(show_mvp, show_axiom, show_streamline, show_oop, disc) {
-            if (disc.oop && !show_oop) {
+        handle_filter(production_filter, disc) {
+            if (disc.oop && !production_filter.show_oop) {
                 return false;
             }
-            if (disc.brand == "mvp" && !show_mvp) {
+            if (disc.brand == "mvp" && !production_filter.show_mvp) {
                 return false;
             }
-            if (disc.brand == "axiom" && !show_axiom) {
+            if (disc.brand == "axiom" && !production_filter.show_axiom) {
                 return false;
             }
-            if (disc.brand == "streamline" && !show_streamline) {
+            if (disc.brand == "streamline" && !production_filter.show_streamline) {
                 return false;
             }
             return true;
@@ -228,10 +228,12 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
     },
     data() {
         return {
-            "show_mvp": true,
-            "show_axiom": true,
-            "show_streamline": true,
-            "show_oop": true,
+            "production_filter" : {
+                "show_mvp": true,
+                "show_axiom": true,
+                "show_streamline": true,
+                "show_oop": true,
+            },
             "info_disc" : {},
             "rims" : [
                 {
