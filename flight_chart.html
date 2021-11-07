@@ -180,7 +180,13 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
             if (disc.brand == "streamline" && !production_filter.show_streamline) {
                 return false;
             }
-            return true;
+            if (plastic_filter == "All Plastics") {
+                return true;
+            }
+            if (disc.plastics.includes(plastic_filter)) {
+                return true;
+            }
+            return false;
         },
     },
  });
@@ -250,8 +256,8 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 "show_streamline": true,
                 "show_oop": true,
             },
-            "plastic_filter" : "All",
-            "plastics" : ["All"],
+            "plastic_filter" : "All Plastics",
+            "plastics" : ["All Plastics"],
             "info_disc" : {},
             "rims" : [
                 {
