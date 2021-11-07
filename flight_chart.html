@@ -119,14 +119,8 @@
 <rect width="1150" :x="(1296-1150)/2" :y="calculate_y(16)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(12)-calculate_y(16)" /> 
 <text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
 <text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :production_filter="production_filter" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
-<div>
-<b-form-checkbox v-model="production_filter.show_oop" size="lg" switch>Out of Production</b-form-checkbox>
-<b-form-checkbox v-model="production_filter.show_mvp" size="lg" switch>MVP</b-form-checkbox>
-<b-form-checkbox v-model="production_filter.show_axiom" size="lg" switch>Axiom</b-form-checkbox>
-<b-form-checkbox v-model="production_filter.show_streamline" size="lg" switch>Streamline</b-form-checkbox>
-</div>
 <div class="pagewidth">
 Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
 </div>
@@ -145,11 +139,11 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+x+','+y+')'" v-show="handle_filter(production_filter, disc)" @click="openModal()">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+x+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, disc)" @click="openModal()">
 <circle :cx="disc_area" :cy="disc_area" :r="disc_radius" />
 <text :y="disc_area" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'x', 'y', 'production_filter'],
+    props : ['disc', 'x', 'y', 'production_filter', 'plastic_filter'],
     data() {
         return {
             "disc_radius" : 30,
@@ -162,7 +156,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
             this.$emit('pickeddisc');
             this.$bvModal.show("extended-disc-info");
         },
-        handle_filter(production_filter, disc) {
+        handle_filter(production_filter, plastic_filter, disc) {
             if (disc.oop && !production_filter.show_oop) {
                 return false;
             }
@@ -222,9 +216,20 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 return 0;
             });
         },
+        glean_plastics_from_discs() {
+            var self=this;
+            self.discs.forEach((disc) => {
+                disc.plastics.forEach((plastic) => {
+                    if(! self.plastics.includes(plastic)) {
+                        self.plastics.push(plastic);
+                    }
+                });
+            });
+        },
     },
     mounted() {
         this.info_disc = this.discs[0];
+        this.glean_plastics_from_discs();
     },
     data() {
         return {
@@ -234,6 +239,8 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 "show_streamline": true,
                 "show_oop": true,
             },
+            "plastic_filter" : "All",
+            "plastics" : ["All"],
             "info_disc" : {},
             "rims" : [
                 {
@@ -285,7 +292,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "width" : "24.5", "speed" : 14.5
                 },
             ],
-            "discs" : [ //In drawn order
+            "discs" : [ //In drawn order, place OOP before other discs.
                 {
                     "name" : "Nomad",
                     "brand" : "mvp",
