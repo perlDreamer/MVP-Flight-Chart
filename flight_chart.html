@@ -114,11 +114,11 @@
 <text class="stability" :x="svg_width/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
 <text class="stability" :x="(svg_width+1150)/2" y="25px" dominant-baseline="middle" text-anchor="end">Under</text>
 <g v-for="(rim,index) in rims">
-    <rect stroke="none" fill="url(#blueGradient)" :y="calculate_y(index+1)" :x="(svg_width - rim.row_width)/2" :height="single_row_height()" :width="rim.row_width"/>
+    <rect stroke="none" fill="url(#blueGradient)" :y="calculate_y(index+1)" :x="(svg_width - rim.row_width)/2 + horizontal_row_bias" :height="single_row_height()" :width="rim.row_width"/>
     <text class="rim" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
     <text class="rim" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 </g>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" :horizontal_row_bias="horizontal_row_bias" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <b-row>
     <b-col cols="2">
@@ -149,11 +149,11 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+x+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, disc)" @click="openModal()">
+    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, disc)" @click="openModal()">
 <circle :cx="disc_area" :cy="row_height/2" :r="disc_radius" />
 <text :y="row_height/2" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'x', 'y', 'row_height', 'production_filter', 'plastic_filter'],
+    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter'],
     data() {
         return {
             "disc_radius" : 30,
@@ -286,6 +286,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 "quantity_streamline" : 0,
             },
             "svg_width" : 1296,
+            "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
             "plastics" : ["All Plastics"],
             "info_disc" : {},
