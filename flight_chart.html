@@ -147,6 +147,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
 <p><b>Plastics:</b><br>
 <span v-for="plastic in info_disc.plastics">{{plastic}}<br></span>
 </p>
+<p v-if="info_disc.approved">PDGA Approved: {{info_disc.approved}}</p>
 </b-modal>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
@@ -427,6 +428,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 47.29, "width" : "10",
                     "oop" : false,
                     "plastics" : ["Neutron", "Proton", "Electron", "Cosmic Electron"],
+                    "approved" : "Dec 7, 2014"
                 },
                 {
                     "name" : "Proxy",
@@ -434,7 +436,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "speed" :  3, "glide" : 3, "turn" : -1, "fade" : 0.5,
                     "x" : 68.22, "width" : "10",
                     "oop" : false,
-                    "plastics" : ["Neutron", "Plasma", "Electron"],
+                    "plastics" : ["Neutron", "Plasma", "Electron", "Cosmic Electron"],
                 },
                 {
                     "name" : "Ion",
@@ -443,6 +445,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 27, "width" : "11",
                     "oop" : false,
                     "plastics" : ["Neutron", "R2", "Proton", "Plasma", "Eclipse", "Electron"],
+                    "approved" : "Sept. 14, 2009"
                 },
                 {
                     "name" : "Anode",
@@ -451,6 +454,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 55.91, "width" : "11",
                     "oop" : false,
                     "plastics" : ["Neutron", "R2", "Proton", "Plasma", "Eclipse", "Electron"],
+                    "approved" : "Jan. 15, 2012"
                 },
                 {
                     "name" : "Spin",
@@ -467,6 +471,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 24.43, "width" : "12",
                     "oop" : true,
                     "plastics" : ["Neutron"],
+                    "approved" : "Apr 19, 2013"
                 },
                 {
                     "name" : "Alias",
@@ -483,6 +488,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 51.70, "width" : "12",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Electron"],
+                    "approved" : "Feb 22, 2013"
                 },
                 {
                     "name" : "Theory",
@@ -507,6 +513,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 26.70, "width" : "13",
                     "oop" : true,
                     "plastics" : ["Neutron", "Plasma", "Proton", "Eclipse"],
+                    "approved" : "Dec. 18, 2010"
                 },
                 {
                     "name" : "Matrix",
@@ -539,6 +546,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 64.20, "width" : "13",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Eclipse"],
+                    "approved" : "Jul. 15, 2011"
                 },
                 {
                     "name" : "Vertex",
@@ -587,6 +595,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 83, "width" : "16",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron"],
+                    "approved" : "May 28, 2015"
                 },
                 {
                     "name" : "Signal",
@@ -603,6 +612,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 3.32, "width" : "16.5",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "approved" : "Sep 23, 2013"
                 },
                 {
                     "name" : "Clash",
@@ -619,6 +629,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 45.50, "width" : "16.5",
                     "oop" : false,
                     "plastics" : ["Neutron","Plasma"],
+                    "approved" : "Dec 1, 2013"
                 },
                 {
                     "name" : "Crave",
@@ -626,7 +637,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "speed" :  6.5, "glide" : 4, "turn" : -1, "fade" : 2,
                     "x" : 54.98, "width" : "16.5",
                     "oop" : false,
-                    "plastics" : ["Neutron","Proton"],
+                    "plastics" : ["Neutron","Proton","Cosmic Neutron"],
                 },
                 {
                     "name" : "Switch",
@@ -635,6 +646,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 64.93, "width" : "16.5",
                     "oop" : true,
                     "plastics" : ["Neutron"],
+                    "approved" : "Feb 10, 2014"
                 },
                 {
                     "name" : "Inspire",
@@ -659,6 +671,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 17.06, "width" : "18",
                     "oop" : true,
                     "plastics" : ["Neutron"],
+                    "approved" : "Jan 15, 2013"
                 },
                 {
                     "name" : "Volt",
@@ -667,6 +680,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 32.70, "width" : "18",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Eclipse", "Fission", "Electron"],
+                    "approved" : "Jul 2, 2012"
                 },
                 {
                     "name" : "Amp",
@@ -675,6 +689,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 58.77, "width" : "18",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Eclipse"],
+                    "approved" : "Nov 14, 2012"
                 },
                 {
                     "name" : "Motion",
@@ -683,6 +698,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 1.0, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron", "Plasma"],
+                    "approved" : "Feb 22, 2014"
                 },
                 {
                     "name" : "Flare",
@@ -707,6 +723,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 31.62, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Fission"],
+                    "approved" : "Feb 22, 2014"
                 },
                 {
                     "name" : "Wrath",
@@ -723,6 +740,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 61.97, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Eclipse 2.0"],
+                    "approved" : "Feb 10, 2014"
                 },
                 {
                     "name" : "Lift",
@@ -738,7 +756,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "speed" :  9, "glide" : 5, "turn" : -2, "fade" : 2,
                     "x" : 71.79, "width" : "18.5",
                     "oop" : false,
-                    "plastics" : ["Neutron", "Proton", "Plasma"],
+                    "plastics" : ["Neutron", "Proton", "Plasma", "Cosmic Neutron"],
                 },
                 {
                     "name" : "Impulse",
@@ -747,6 +765,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 85, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "approved" : "Feb 22, 2014"
                 },
                 {
                     "name" : "Virus",
@@ -779,6 +798,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 24.36, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Fission"],
+                    "approved" : "Feb 6, 2015"
                 },
                 {
                     "name" : "Defy",
@@ -803,6 +823,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 55.56, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Fission"],
+                    "approved" : "Feb 6, 2015"
                 },
                 {
                     "name" : "Vanish",
@@ -819,6 +840,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 94.6, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "approved" : "Feb 6, 2015"
                 },
                 {
                     "name" : "Energy",
