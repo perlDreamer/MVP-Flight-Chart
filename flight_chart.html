@@ -113,12 +113,11 @@
 <text class="stability" :x="(1296-1150)/2" y="25px" dominant-baseline="middle">Over</text>
 <text class="stability" :x="1296/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
 <text class="stability" :x="(1296+1150)/2" y="25px" dominant-baseline="middle" text-anchor="end">Under</text>
-<rect width="700" :x="(1296-700)/2" :y="calculate_y(4)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(0)-calculate_y(4)" /> 
-<rect width="850" :x="(1296-850)/2" :y="calculate_y(8)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(4)-calculate_y(8)" /> 
-<rect width="1000" :x="(1296-1000)/2" :y="calculate_y(12)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(8)-calculate_y(12)" /> 
-<rect width="1150" :x="(1296-1150)/2" :y="calculate_y(16)" stroke="none" fill="url(#blueGradient)" :height="calculate_y(12)-calculate_y(16)" /> 
-<text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
-<text class="rim" v-for="(rim, index) in rims" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
+<g v-for="(rim,index) in rims">
+    <rect stroke="none" fill="url(#blueGradient)" :y="calculate_y(index+1)" :x="(1296 - rim.row_width)/2" :height="single_row_height()" :width="rim.row_width"/>
+    <text class="rim" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
+    <text class="rim" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
+</g>
 <lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <b-row>
@@ -196,13 +195,17 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
         discPicked(disc) {
             this.info_disc = disc;
         },
-        calculate_y(row) {
-            //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
-            //Reserving to the top 50 pixels for banner, stability bar, etc.
+        single_row_height() {
             var stability_bar_height = 50;
             var disc_area_height = 1296 - stability_bar_height;
             var row_height = disc_area_height / this.rims.length;
-            return 1296 - (row_height * row);
+            return row_height;
+        },
+        calculate_y(row) {
+            //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
+            //Reserving to the top 50 pixels for banner, stability bar, etc.
+            var y = 1296 - (this.single_row_height() * row);
+            return y
         },
         calculate_x(disc) {
             //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
@@ -212,6 +215,10 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
         calculate_row(disc) {
             var row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
             return row_index+1;
+        },
+        calculate_row_width(disc) {
+            var row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
+            return this.rims[row_index].row_width;
         },
         sort_rims_by_width() {
             this.rims.sort((left, right) => {
@@ -261,52 +268,52 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
             "info_disc" : {},
             "rims" : [
                 {
-                    "width" : "9", "speed" : 2
+                    "width" : "9", "speed" : 2, "row_width" : 700,
                 },
                 {
-                    "width" : "10", "speed" : 3
+                    "width" : "10", "speed" : 3, "row_width" : 700,
                 },
                 {
-                    "width" : "10.5", "speed" : 4
+                    "width" : "10.5", "speed" : 4, "row_width" : 700,
                 },
                 {
-                    "width" : "11", "speed" : 2.5
+                    "width" : "11", "speed" : 2.5, "row_width" : 700,
                 },
                 {
-                    "width" : "12", "speed" : 4
+                    "width" : "12", "speed" : 4, "row_width" : 850,
                 },
                 {
-                    "width" : "13", "speed" : 4
+                    "width" : "13", "speed" : 4, "row_width" : 850,
                 },
                 {
-                    "width" : "13", "speed" : 5
+                    "width" : "13", "speed" : 5, "row_width" : 850,
                 },
                 {
-                    "width" : "14.5", "speed" : 5
+                    "width" : "14.5", "speed" : 5, "row_width" : 850,
                 },
                 {
-                    "width" : "16", "speed" : 6
+                    "width" : "16", "speed" : 6, "row_width" : 1000,
                 },
                 {
-                    "width" : "16.5", "speed" : 6.5
+                    "width" : "16.5", "speed" : 6.5, "row_width" : 1000,
                 },
                 {
-                    "width" : "16.5", "speed" : 7
+                    "width" : "16.5", "speed" : 7, "row_width" : 1000,
                 },
                 {
-                    "width" : "18", "speed" : 8
+                    "width" : "18", "speed" : 8, "row_width" : 1000,
                 },
                 {
-                    "width" : "18.5", "speed" : 9
+                    "width" : "18.5", "speed" : 9, "row_width" : 1150,
                 },
                 {
-                    "width" : "21", "speed" : 11
+                    "width" : "21", "speed" : 11, "row_width" : 1150,
                 },
                 {
-                    "width" : "23", "speed" : 13
+                    "width" : "23", "speed" : 13, "row_width" : 1150,
                 },
                 {
-                    "width" : "24.5", "speed" : 14.5
+                    "width" : "24.5", "speed" : 14.5, "row_width" : 1150,
                 },
             ],
             "discs" : [ //In drawn order, place OOP before other discs.
