@@ -208,9 +208,11 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
             return y
         },
         calculate_x(disc) {
-            //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
-            //Reserving to the top 50 pixels for banner, stability bar, etc.
-            return disc.x / 100 * 1296;
+            var row_width = this.calculate_row_width(disc);
+            var offset = (1296 - row_width)/2;
+            var x = offset + (disc.x / 100 * row_width);
+            console.log(disc.name + " " + x);
+            return x;
         },
         calculate_row(disc) {
             var row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
