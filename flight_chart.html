@@ -122,10 +122,10 @@
 </svg>
 <b-row>
     <b-col cols="2">
-        <b-form-checkbox v-model="production_filter.show_oop" size="lg" switch>Out of Production</b-form-checkbox>
-        <b-form-checkbox v-model="production_filter.show_mvp" size="lg" switch>MVP</b-form-checkbox>
-        <b-form-checkbox v-model="production_filter.show_axiom" size="lg" switch>Axiom</b-form-checkbox>
-        <b-form-checkbox v-model="production_filter.show_streamline" size="lg" switch>Streamline</b-form-checkbox>
+        <b-form-checkbox v-model="production_filter.show_oop" size="lg" switch>Out of Production ({{disc_stats.quantity_oop}})</b-form-checkbox>
+        <b-form-checkbox v-model="production_filter.show_mvp" size="lg" switch>MVP ({{disc_stats.quantity_mvp}})</b-form-checkbox>
+        <b-form-checkbox v-model="production_filter.show_axiom" size="lg" switch>Axiom ({{disc_stats.quantity_axiom}})</b-form-checkbox>
+        <b-form-checkbox v-model="production_filter.show_streamline" size="lg" switch>Streamline ({{disc_stats.quantity_streamline}})</b-form-checkbox>
     </b-col>
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
@@ -247,6 +247,18 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
         glean_plastics_from_discs() {
             var self=this;
             self.discs.forEach((disc) => {
+                if (disc.oop) {
+                    self.disc_stats.quantity_oop = self.disc_stats.quantity_oop + 1;
+                }
+                else if (disc.brand == "mvp") {
+                    self.disc_stats.quantity_mvp = self.disc_stats.quantity_mvp + 1;
+                }
+                else if (disc.brand == "axiom") {
+                    self.disc_stats.quantity_axiom = self.disc_stats.quantity_axiom + 1;
+                }
+                else if (disc.brand == "streamline") {
+                    self.disc_stats.quantity_streamline = self.disc_stats.quantity_streamline + 1;
+                }
                 disc.plastics.forEach((plastic) => {
                     if(! self.plastics.includes(plastic)) {
                         self.plastics.push(plastic);
@@ -266,6 +278,12 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 "show_axiom": true,
                 "show_streamline": true,
                 "show_oop": true,
+            },
+            "disc_stats" : {
+                "quantity_oop" : 0,
+                "quantity_mvp" : 0,
+                "quantity_axiom" : 0,
+                "quantity_streamline" : 0,
             },
             "svg_width" : 1296,
             "plastic_filter" : "All Plastics",
