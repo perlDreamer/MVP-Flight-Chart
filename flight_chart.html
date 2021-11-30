@@ -131,10 +131,12 @@
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
     </b-col>
     <b-col cols="2">
+        <b>Statistics</b><br>
         Putters: {{disc_stats.quantity_putters}}<br>
         Midranges: {{disc_stats.quantity_mids}}<br>
         Fairway drivers: {{disc_stats.quantity_fairways}}<br>
-        Distance drivers: {{disc_stats.quantity_distance}}
+        Distance drivers: {{disc_stats.quantity_distance}}<br>
+        Total discs: {{disc_stats.total_discs}}
     </b-col>
 </b-row>
 <div class="pagewidth">
@@ -284,6 +286,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                         self.plastics.push(plastic);
                     }
                 });
+                self.disc_stats.total_discs = self.discs.length;
             });
         },
     },
@@ -300,6 +303,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 "show_oop": true,
             },
             "disc_stats" : {
+                "total_discs" : 0,
                 "quantity_oop" : 0,
                 "quantity_mvp" : 0,
                 "quantity_axiom" : 0,
