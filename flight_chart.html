@@ -118,7 +118,7 @@
     <text class="rim" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
     <text class="rim" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 </g>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" :horizontal_row_bias="horizontal_row_bias" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" wcurrent_date="current_date" :horizontal_row_bias="horizontal_row_bias" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <b-row>
     <b-col cols="2">
@@ -160,7 +160,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
 <circle :cx="disc_area" :cy="row_height/2" :r="disc_radius" />
 <text :y="row_height/2" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter'],
+    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date'],
     data() {
         return {
             "disc_radius" : 30,
@@ -309,6 +309,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 "quantity_fairways" : 0,
                 "quantity_distance" : 0,
             },
+            "current_date" : Date.now(),
             "svg_width" : 1296,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
@@ -399,7 +400,8 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 5.43, "width" : "10",
                     "oop" : true,
                     "plastics" : ["Neutron"],
-                    "approved" : "Jun 11, 2017"
+                    "approved" : "Jun 11, 2017",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
                 },
                 {
                     "name" : "Entropy",
@@ -480,7 +482,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 24.43, "width" : "12",
                     "oop" : true,
                     "plastics" : ["Neutron"],
-                    "approved" : "Apr 19, 2013"
+                    "approved" : "Apr 19, 2013",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Alias",
@@ -489,7 +493,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 42.61, "width" : "12",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton"],
-                    "approved" : "Jan 12, 2014"
+                    "approved" : "Jan 12, 2014",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Tangent",
@@ -498,7 +504,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 51.70, "width" : "12",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Electron"],
-                    "approved" : "Feb 22, 2013"
+                    "approved" : "Feb 22, 2013",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Theory",
@@ -507,7 +515,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 71.02, "width" : "12",
                     "oop" : true,
                     "plastics" : ["Neutron", "Plasma"],
-                    "approved" : "Sept 24, 2014"
+                    "approved" : "Sept 24, 2014",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Runway",
@@ -525,7 +535,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 26.70, "width" : "13",
                     "oop" : true,
                     "plastics" : ["Neutron", "Plasma", "Proton", "Eclipse"],
-                    "approved" : "Dec. 18, 2010"
+                    "approved" : "Dec. 18, 2010",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Matrix",
@@ -561,7 +573,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 64.20, "width" : "13",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Eclipse"],
-                    "approved" : "Jul. 15, 2011"
+                    "approved" : "Jul. 15, 2011",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Vertex",
@@ -570,7 +584,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 85.80, "width" : "13",
                     "oop" : true,
                     "plastics" : ["Neutron"],
-                    "approved" : "Aug 19, 2017"
+                    "approved" : "Aug 19, 2017",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Uplink",
@@ -642,7 +658,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 36.02, "width" : "16.5",
                     "oop" : true,
                     "plastics" : ["Neutron","Proton"],
-                    "approved" : "Jun 10, 2014"
+                    "approved" : "Jun 10, 2014",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Servo",
@@ -669,7 +687,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 64.93, "width" : "16.5",
                     "oop" : true,
                     "plastics" : ["Neutron"],
-                    "approved" : "Feb 10, 2014"
+                    "approved" : "Feb 10, 2014",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Inspire",
@@ -678,7 +698,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 72.40, "width" : "16.5",
                     "oop" : true,
                     "plastics" : ["Neutron","Proton"],
-                    "approved" : "Mar 22, 2014"
+                    "approved" : "Mar 22, 2014",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Drift",
@@ -696,7 +718,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 17.06, "width" : "18",
                     "oop" : true,
                     "plastics" : ["Neutron"],
-                    "approved" : "Jan 15, 2013"
+                    "approved" : "Jan 15, 2013",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Volt",
@@ -714,7 +738,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 58.77, "width" : "18",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Eclipse"],
-                    "approved" : "Nov 14, 2012"
+                    "approved" : "Nov 14, 2012",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Motion",
@@ -821,7 +847,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 9.5, "width" : "21",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton"],
-                    "approved" : "Apr 21, 2016"
+                    "approved" : "Apr 21, 2016",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Photon",
@@ -947,7 +975,9 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "x" : 1.0, "width" : "24.5",
                     "oop" : true,
                     "plastics" : ["Neutron"],
-                    "approved" : "Apr 13, 2017"
+                    "approved" : "Apr 13, 2017",
+                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+
                 },
                 {
                     "name" : "Dimension",
