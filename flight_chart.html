@@ -131,14 +131,19 @@
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
     </b-col>
     <b-col cols="2">
+        <b>Statistics</b><br>
         Putters: {{disc_stats.quantity_putters}}<br>
         Midranges: {{disc_stats.quantity_mids}}<br>
         Fairway drivers: {{disc_stats.quantity_fairways}}<br>
-        Distance drivers: {{disc_stats.quantity_distance}}
+        Distance drivers: {{disc_stats.quantity_distance}}<br>
+        Total discs: {{disc_stats.total_discs}}
     </b-col>
 </b-row>
 <div class="pagewidth">
 Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
+</div>
+<div class="pagewidth">
+Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Scott, Joe Notch, and Jason Wurst for feedback, fixes and suggestions.
 </div>
 <b-modal size="sm" id="extended-disc-info" centered hide-footer>
 <template #modal-title>{{info_disc.brand == 'mvp' ? 'MVP' : info_disc.brand == 'axiom' ? 'Axiom' : 'Streamline'}}: {{info_disc.name}}</template>
@@ -284,6 +289,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                         self.plastics.push(plastic);
                     }
                 });
+                self.disc_stats.total_discs = self.discs.length;
             });
         },
     },
@@ -300,6 +306,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                 "show_oop": true,
             },
             "disc_stats" : {
+                "total_discs" : 0,
                 "quantity_oop" : 0,
                 "quantity_mvp" : 0,
                 "quantity_axiom" : 0,
@@ -372,7 +379,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
                     "x" : 42.7, "width" : "9",
                     "oop" : false,
-                    "plastics" : ["Electron", "Plasma"],
+                    "plastics" : ["Electron", "Plasma","R2"],
                     "approved" : "Mar 22, 2021"
                 },
                 {
@@ -445,7 +452,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "speed" :  3, "glide" : 3, "turn" : -1, "fade" : 0.5,
                     "x" : 68.22, "width" : "10",
                     "oop" : false,
-                    "plastics" : ["Neutron", "Plasma", "Electron", "Cosmic Electron"],
+                    "plastics" : ["Neutron", "Plasma", "Electron", "Cosmic Electron", "Eclipse"],
                     "approved" : "Sept 24, 2014"
                 },
                 {
@@ -545,7 +552,7 @@ Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-appr
                     "speed" :  5, "glide" : 4, "turn" : -1, "fade" : 2,
                     "x" : 35.32, "width" : "13",
                     "oop" : false,
-                    "plastics" : ["Neutron"],
+                    "plastics" : ["Neutron", "Proton", "Electron"],
                     "approved" : "May 10, 2016"
                 },
                 {
