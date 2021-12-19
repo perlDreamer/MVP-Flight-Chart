@@ -86,13 +86,13 @@
 <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" height="11in" viewBox="0 0 1296 1296" enable-background="new 0 0 1296 1296" version="1.1" x="0px" width="11in" y="0px">
 <defs>
     <linearGradient id="blueGradient">
-        <stop offset="0%" stop-color="#3645e3"/>
-        <stop offset="100%" stop-color="#A7ACDF"/>
+        <stop offset="0%"   :stop-color="handedness == 'right' ? '#3645e3' : '#A7ACDF'"/>
+        <stop offset="100%" :stop-color="handedness == 'right' ? '#A7ACDF' : '#3645e3'"/>
     </linearGradient>
     <linearGradient id="stabilityGradient">
-        <stop offset="0%" stop-color="red"/>
+        <stop offset="0%" :stop-color="handedness == 'right' ? 'red' : 'green'"/>
         <stop offset="50%" stop-color="yellow"/>
-        <stop offset="100%" stop-color="green"/>
+        <stop offset="100%" :stop-color="handedness == 'right' ? 'green' : 'red'"/>
     </linearGradient>
     <marker id="arrowhead" markerWidth="5" markerHeight="5" ref0="0" refY="2.5" orient="auto">
         <polygon points="0 0, 5 2.5, 0 5" />
@@ -112,6 +112,11 @@
 </g>
 <text class="stability" :x="(svg_width-1150)/2" y="25px" dominant-baseline="middle">Over</text>
 <text class="stability" :x="svg_width/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
+<g class="sort" transform="translate(725,5)" @click="swap_handedness">
+    <rect />
+    <line x1="5" y1="12.5" x2="25" y2="12.5" marker-end="url(#arrowhead)"/>
+    <line x1="32" y1="27.5" x2="13" y2="27.5"  marker-end="url(#arrowhead)"/>
+</g>
 <text class="stability" :x="(svg_width+1150)/2" y="25px" dominant-baseline="middle" text-anchor="end">Under</text>
 <g v-for="(rim,index) in rims">
     <rect stroke="none" fill="url(#blueGradient)" :y="calculate_y(index+1)" :x="(svg_width - rim.row_width)/2 + horizontal_row_bias" :height="single_row_height()+1" :width="rim.row_width"/>
@@ -226,6 +231,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             var row_width = this.calculate_row_width(disc);
             var offset = (this.svg_width - row_width)/2;
             var x = offset + (disc.x / 100 * row_width);
+            if (this.handedness == 'left') {
+                x = x - 55;
+            }
             return x;
         },
         calculate_row(disc) {
@@ -256,8 +264,15 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 return 0;
             });
         },
+        swap_handedness() {
+            var self = this;
+            self.handedness = self.handedness == "right" ? "left" : "right";
+            self.discs.forEach((disc) => {
+                disc.x = 100 - disc.x;
+            })
+        },
         glean_plastics_from_discs() {
-            var self=this;
+            var self = this;
             self.discs.forEach((disc) => {
                 if (disc.oop) {
                     self.disc_stats.quantity_oop = self.disc_stats.quantity_oop + 1;
@@ -299,9 +314,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     },
     data() {
         return {
+            "handedness" : "right",
             "production_filter" : {
-            "show_mvp": true,
-            "show_axiom": true,
+                "show_mvp": true,
+                "show_axiom": true,
                 "show_streamline": true,
                 "show_oop": true,
             },
