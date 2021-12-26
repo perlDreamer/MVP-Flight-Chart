@@ -2,7 +2,7 @@
 <head>
     <title>Interactive MVP Network Flight Chart</title>
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2.19.0/dist/bootstrap-vue.min.css">
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.css">
     <style>
         g.mvp circle {
             stroke-width: 3px;
@@ -129,6 +129,7 @@
     </b-col>
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
+        <b-form-select v-model="current_date" :options="significant_dates"></b-form-select>
     </b-col>
     <b-col cols="2">
         <b>Statistics</b><br>
@@ -265,6 +266,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             self.discs.forEach((disc) => {
                 if (disc.oop) {
                     self.disc_stats.quantity_oop = self.disc_stats.quantity_oop + 1;
+                    _dates.push(disc.oop_date);
                 }
                 else if (disc.brand == "mvp") {
                     self.disc_stats.quantity_mvp = self.disc_stats.quantity_mvp + 1;
@@ -294,7 +296,13 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     }
                 });
                 self.disc_stats.total_discs = self.discs.length;
+                _dates.push(disc.approved);
             });
+            _dates.sort((a,b) => b.getTime() - a.getTime()).filter(distinct).forEach((_date) => self.significant_dates.push({
+                value: _date,
+                text : _date.toDateString(),
+            }));
+            self.current_date = self.significant_dates.at(0).value;
         },
     },
     mounted() {
@@ -852,6 +860,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 1.0, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "approved" : new Date("Feb 6, 2015")
                 },
                 {
                     "name" : "Thrill",
