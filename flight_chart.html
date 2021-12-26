@@ -214,29 +214,29 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             this.info_disc = disc;
         },
         single_row_height() {
-            var stability_bar_height = 50;
-            var disc_area_height = this.svg_width - stability_bar_height;
-            var row_height = disc_area_height / this.rims.length;
+            let stability_bar_height = 50;
+            let disc_area_height = this.svg_width - stability_bar_height;
+            let row_height = disc_area_height / this.rims.length;
             return row_height;
         },
         calculate_y(row) {
             //Rows are numbered from top to bottom in inverse proprtion to the disc's speed.
             //Reserving to the top 50 pixels for banner, stability bar, etc.
-            var y = this.svg_width - (this.single_row_height() * row);
+            let y = this.svg_width - (this.single_row_height() * row);
             return y
         },
         calculate_x(disc) {
-            var row_width = this.calculate_row_width(disc);
-            var offset = (this.svg_width - row_width)/2;
-            var x = offset + (disc.x / 100 * row_width);
+            let row_width = this.calculate_row_width(disc);
+            let offset = (this.svg_width - row_width)/2;
+            let x = offset + (disc.x / 100 * row_width);
             return x;
         },
         calculate_row(disc) {
-            var row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
+            let row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
             return row_index+1;
         },
         calculate_row_width(disc) {
-            var row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
+            let row_index = _.findIndex(this.rims, function(rim) { return rim.width == disc.width && rim.speed == disc.speed; });
             return this.rims[row_index].row_width;
         },
         sort_rims_by_width() {
@@ -259,8 +259,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 return 0;
             });
         },
-        glean_plastics_from_discs() {
-            var self=this;
+        glean_information_from_discs() {
+            let self=this;
+            let _dates = [];
             self.discs.forEach((disc) => {
                 if (disc.oop) {
                     self.disc_stats.quantity_oop = self.disc_stats.quantity_oop + 1;
@@ -274,7 +275,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 else if (disc.brand == "streamline") {
                     self.disc_stats.quantity_streamline = self.disc_stats.quantity_streamline + 1;
                 }
-                var disc_width = parseFloat(disc.width);
+                let disc_width = parseFloat(disc.width);
                 if (disc_width > 1 && disc_width <= 11) {
                     self.disc_stats.quantity_putters = self.disc_stats.quantity_putters + 1;
                 }
@@ -298,7 +299,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     },
     mounted() {
         this.info_disc = this.discs[0];
-        this.glean_plastics_from_discs();
+        this.glean_information_from_discs();
     },
     data() {
         return {
@@ -321,6 +322,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             },
             //"current_date" : new Date("December 1, 2011 0:00:00"),
             "current_date" : Date.now(),
+            "significant_dates" : [],
             "svg_width" : 1296,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
