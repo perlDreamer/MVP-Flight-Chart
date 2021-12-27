@@ -263,10 +263,14 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         glean_information_from_discs() {
             let self=this;
             let _dates = [];
+            let seen_dates = {};
             self.discs.forEach((disc) => {
                 if (disc.oop) {
                     self.disc_stats.quantity_oop = self.disc_stats.quantity_oop + 1;
-                    _dates.push(disc.oop_date);
+                    if (! seen_dates[disc.oop_date.getTime()]) {
+                        _dates.push(disc.oop_date);
+                        seen_dates[disc.oop_date.getTime()] = 1;
+                    }
                 }
                 else if (disc.brand == "mvp") {
                     self.disc_stats.quantity_mvp = self.disc_stats.quantity_mvp + 1;
@@ -296,9 +300,12 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     }
                 });
                 self.disc_stats.total_discs = self.discs.length;
-                _dates.push(disc.approved);
+                if (! seen_dates[disc.approved.getTime()]) {
+                    _dates.push(disc.approved);
+                    seen_dates[disc.approved.getTime()] = 1;
+                }
             });
-            _dates.sort((a,b) => b.getTime() - a.getTime()).filter(distinct).forEach((_date) => self.significant_dates.push({
+            _dates.sort((a,b) => b.getTime() - a.getTime()).forEach((_date) => self.significant_dates.push({
                 value: _date,
                 text : _date.toDateString(),
             }));
