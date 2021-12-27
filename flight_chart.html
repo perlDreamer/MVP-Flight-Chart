@@ -162,7 +162,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g :class="[disc.brand, disc.oop ? 'oop' : '']" :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, disc)" @click="openModal()">
+    template : `<g v-bind:class="disc_style" :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, disc)" @click="openModal()">
 <circle :cx="disc_area" :cy="row_height/2" :r="disc_radius" />
 <text :y="row_height/2" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
@@ -172,6 +172,15 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "disc_radius" : 30,
             "disc_area" : 30,
             "text_area" : 34,
+        }
+    },
+    computed: {
+        disc_style() {
+            let self = this;
+            let style = {};
+            style[self.disc.brand] = true;
+            style['oop'] = self.disc.oop && self.disc.oop_date <= self.current_date;
+            return style;
         }
     },
     methods: {
