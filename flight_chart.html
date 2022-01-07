@@ -135,6 +135,7 @@
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
         <b-form-select v-model="current_date" :options="significant_dates"></b-form-select>
+        <b-button variant="info" @click="animateDates">Animate dates</b-button>
     </b-col>
     <b-col cols="2">
         <b>Statistics</b><br>
@@ -241,9 +242,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             return y
         },
         calculate_x(disc) {
-            var row_width = this.calculate_row_width(disc);
-            var offset = (this.svg_width - row_width)/2;
-            var x = offset + (disc.x / 100 * row_width);
+            let row_width = this.calculate_row_width(disc);
+            let offset = (this.svg_width - row_width)/2;
+            let x = offset + (disc.x / 100 * row_width);
             if (this.handedness == 'left') {
                 x = x - 55;
             }
@@ -278,14 +279,32 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             });
         },
         swap_handedness() {
-            var self = this;
+            let self = this;
             self.handedness = self.handedness == "right" ? "left" : "right";
             self.discs.forEach((disc) => {
                 disc.x = 100 - disc.x;
             })
         },
+        animateDates() {
+            let self = this;
+            self.animationDateIndex = self.significant_dates.length-1;
+            self.current_date = self.significant_dates[self.animationDateIndex];
+            self.animationIntervalId = setInterval(self.decrementDate, 1500);
+        },
+        decrementDate() {
+            let self = this;
+            self.animationDateIndex = self.animationDateIndex - 1;
+            console.log(self.animationDateIndex);
+            if (self.animationDateIndex < 0) {
+                self.current_date = self.significant_dates.at(0).value;
+                clearInterval(self.animationIntervalId);
+                return;
+            }
+            self.current_date = self.significant_dates.at(self.animationDateIndex).value;
+            console.log(self.current_date);
+        },
         glean_information_from_discs() {
-            let self=this;
+            let self = this;
             let _dates = [];
             let seen_dates = {};
             self.discs.forEach((disc) => {
@@ -342,6 +361,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     },
     data() {
         return {
+            "animationIntervalId" : undefined,
+            "animationDateIndex" : 0,
             "handedness" : "right",
             "production_filter" : {
                 "show_mvp": true,
@@ -1093,6 +1114,6 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
  });
 </script>
 <script data-goatcounter="https://flight-chart.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+        async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
