@@ -296,11 +296,11 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             self.animationDateIndex = self.animationDateIndex - 1;
             console.log(self.animationDateIndex);
             if (self.animationDateIndex < 0) {
-                self.current_date = self.significant_dates.at(0).value;
+                self.current_date = self.significant_dates[0].value;
                 clearInterval(self.animationIntervalId);
                 return;
             }
-            self.current_date = self.significant_dates.at(self.animationDateIndex).value;
+            self.current_date = self.significant_dates[self.animationDateIndex].value;
             console.log(self.current_date);
         },
         glean_information_from_discs() {
