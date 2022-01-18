@@ -156,6 +156,7 @@
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
         <b-form-select v-model="current_date" :options="significant_dates"></b-form-select>
         <b-button variant="info" @click="animateDates">Animate dates</b-button>
+        <b-button variant="danger" @click="resetDates" v-if="animationIntervalId">Stop</b-button>
     </b-col>
     <b-col cols="2">
         <b>Statistics</b><br>
@@ -320,14 +321,18 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         decrementDate() {
             let self = this;
             self.animationDateIndex = self.animationDateIndex - 1;
-            console.log(self.animationDateIndex);
             if (self.animationDateIndex < 0) {
                 self.current_date = self.significant_dates[0].value;
                 clearInterval(self.animationIntervalId);
+                self.animationIntervalId = null;
                 return;
             }
             self.current_date = self.significant_dates[self.animationDateIndex].value;
-            console.log(self.current_date);
+        },
+        resetDates() {
+            let self = this;
+            clearInterval(self.animationIntervalId);
+            self.current_date = self.significant_dates[0].value;
         },
         glean_information_from_discs() {
             let self = this;
@@ -387,7 +392,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     },
     data() {
         return {
-            "animationIntervalId" : undefined,
+            "animationIntervalId" : null,
             "animationDateIndex" : 0,
             "handedness" : "right",
             "production_filter" : {
