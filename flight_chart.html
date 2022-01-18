@@ -4,6 +4,16 @@
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.css">
     <style>
+        g.fadein {
+            animation-name: fadein;
+            animation-duration: 1.5s;
+            animation-iteration-count: 1;
+        }
+        g.fadeout {
+            animation-name: fadeout;
+            animation-duration: 1.5s;
+            animation-iteration-count: 1;
+        }
         g.mvp circle {
             stroke-width: 3px;
             stroke: black;
@@ -73,6 +83,16 @@
 
         h1, h3 {
             text-align: center;
+        }
+
+        @keyframes fadein {
+            0%   { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeout {
+            0%   { opacity: 1; }
+            100% { opacity: 0.35; }
         }
 
     </style>
@@ -186,6 +206,12 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             let style = {};
             style[self.disc.brand] = true;
             style['oop'] = self.disc.oop && self.disc.oop_date <= self.current_date;
+            if (style['oop']) {
+                style['fadeout'] = true;
+            }
+            else {
+                style['fadein'] = true;
+            }
             return style;
         }
     },
