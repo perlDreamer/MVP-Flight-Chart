@@ -315,7 +315,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         animateDates() {
             let self = this;
             self.animationDateIndex = self.significant_dates.length-1;
-            self.current_date = self.significant_dates[self.animationDateIndex];
+            self.current_date = self.significant_dates[self.animationDateIndex].value;
             self.animationIntervalId = setInterval(self.decrementDate, 1500);
         },
         decrementDate() {
@@ -333,6 +333,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             let self = this;
             clearInterval(self.animationIntervalId);
             self.current_date = self.significant_dates[0].value;
+            self.animationIntervalId = null;
         },
         glean_information_from_discs() {
             let self = this;
