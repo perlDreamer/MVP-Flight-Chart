@@ -382,7 +382,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             });
             _dates.sort((a,b) => b.getTime() - a.getTime()).forEach((_date) => self.significant_dates.push({
                 value: _date,
-                text : _date.toDateString(),
+                text : _date.toDateString().replace(/^\S+\s+/,''),
             }));
             self.current_date = self.significant_dates[0].value;
         },
@@ -507,7 +507,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Jun 11, 2017"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
                 },
                 {
                     "name" : "Entropy",
@@ -552,7 +552,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 68.22, "width" : "10",
                     "oop" : false,
                     "plastics" : ["Neutron", "Plasma", "Electron", "Cosmic Electron", "Eclipse"],
-                    "approved" : new Date("Sept 24, 2014")
+                    "approved" : new Date("Sep 24, 2014")
                 },
                 {
                     "name" : "Ion",
@@ -561,7 +561,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 27, "width" : "11",
                     "oop" : false,
                     "plastics" : ["Neutron", "R2", "Proton", "Plasma", "Eclipse", "Electron"],
-                    "approved" : new Date("Sept. 14, 2009")
+                    "approved" : new Date("Sep 14, 2009")
                 },
                 {
                     "name" : "Anode",
@@ -570,7 +570,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 55.91, "width" : "11",
                     "oop" : false,
                     "plastics" : ["Neutron", "R2", "Proton", "Plasma", "Eclipse", "Electron"],
-                    "approved" : new Date("Jan. 15, 2012")
+                    "approved" : new Date("Jan 15, 2012")
                 },
                 {
                     "name" : "Spin",
@@ -589,7 +589,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Apr 19, 2013"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -600,7 +600,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton"],
                     "approved" : new Date("Jan 12, 2014"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -611,7 +611,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Electron"],
                     "approved" : new Date("Feb 22, 2013"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -621,8 +621,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 71.02, "width" : "12",
                     "oop" : true,
                     "plastics" : ["Neutron", "Plasma"],
-                    "approved" : new Date("Sept 24, 2014"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "approved" : new Date("Sep 24, 2014"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -641,8 +641,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 26.70, "width" : "13",
                     "oop" : true,
                     "plastics" : ["Neutron", "Plasma", "Proton", "Eclipse"],
-                    "approved" : new Date("Dec. 18, 2010"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "approved" : new Date("Dec 18, 2010"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -679,8 +679,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 64.20, "width" : "13",
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Eclipse"],
-                    "approved" : new Date("Jul. 15, 2011"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "approved" : new Date("Jul 15, 2011"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -691,7 +691,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Aug 19, 2017"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -765,7 +765,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron","Proton"],
                     "approved" : new Date("Jun 10, 2014"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -794,7 +794,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Feb 10, 2014"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -805,7 +805,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron","Proton"],
                     "approved" : new Date("Mar 22, 2014"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -825,7 +825,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Jan 15, 2013"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -845,7 +845,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Eclipse"],
                     "approved" : new Date("Nov 14, 2012"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -955,7 +955,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron", "Proton"],
                     "approved" : new Date("Apr 21, 2016"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
@@ -1083,7 +1083,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Apr 13, 2017"),
-                    "oop_date" : new Date("August 29, 2019 00:00:00"),
+                    "oop_date" : new Date("Aug 29, 2019"),
 
                 },
                 {
