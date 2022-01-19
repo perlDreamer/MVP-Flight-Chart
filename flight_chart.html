@@ -4,6 +4,16 @@
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@2.21.2/dist/bootstrap-vue.min.css">
     <style>
+        g.fadein {
+            animation-name: fadein;
+            animation-duration: 1.0s;
+            animation-iteration-count: 1;
+        }
+        g.fadeout {
+            animation-name: fadeout;
+            animation-duration: 1.0s;
+            animation-iteration-count: 1;
+        }
         g.mvp circle {
             stroke-width: 3px;
             stroke: black;
@@ -75,6 +85,16 @@
             text-align: center;
         }
 
+        @keyframes fadein {
+            0%   { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeout {
+            0%   { opacity: 1; }
+            100% { opacity: 0.35; }
+        }
+
     </style>
 </head>
 <body>
@@ -135,6 +155,8 @@
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
         <b-form-select v-model="current_date" :options="significant_dates"></b-form-select>
+        <b-button variant="info" @click="animateDates">Animate dates</b-button>
+        <b-button variant="danger" @click="resetDates" v-if="animationIntervalId">Stop</b-button>
     </b-col>
     <b-col cols="2">
         <b>Statistics</b><br>
@@ -185,6 +207,12 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             let style = {};
             style[self.disc.brand] = true;
             style['oop'] = self.disc.oop && self.disc.oop_date <= self.current_date;
+            if (style['oop']) {
+                style['fadeout'] = true;
+            }
+            else {
+                style['fadein'] = true;
+            }
             return style;
         }
     },
@@ -241,9 +269,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             return y
         },
         calculate_x(disc) {
-            var row_width = this.calculate_row_width(disc);
-            var offset = (this.svg_width - row_width)/2;
-            var x = offset + (disc.x / 100 * row_width);
+            let row_width = this.calculate_row_width(disc);
+            let offset = (this.svg_width - row_width)/2;
+            let x = offset + (disc.x / 100 * row_width);
             if (this.handedness == 'left') {
                 x = x - 55;
             }
@@ -278,14 +306,37 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             });
         },
         swap_handedness() {
-            var self = this;
+            let self = this;
             self.handedness = self.handedness == "right" ? "left" : "right";
             self.discs.forEach((disc) => {
                 disc.x = 100 - disc.x;
             })
         },
+        animateDates() {
+            let self = this;
+            self.animationDateIndex = self.significant_dates.length-1;
+            self.current_date = self.significant_dates[self.animationDateIndex].value;
+            self.animationIntervalId = setInterval(self.decrementDate, 1500);
+        },
+        decrementDate() {
+            let self = this;
+            self.animationDateIndex = self.animationDateIndex - 1;
+            if (self.animationDateIndex < 0) {
+                self.current_date = self.significant_dates[0].value;
+                clearInterval(self.animationIntervalId);
+                self.animationIntervalId = null;
+                return;
+            }
+            self.current_date = self.significant_dates[self.animationDateIndex].value;
+        },
+        resetDates() {
+            let self = this;
+            clearInterval(self.animationIntervalId);
+            self.current_date = self.significant_dates[0].value;
+            self.animationIntervalId = null;
+        },
         glean_information_from_discs() {
-            let self=this;
+            let self = this;
             let _dates = [];
             let seen_dates = {};
             self.discs.forEach((disc) => {
@@ -342,6 +393,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     },
     data() {
         return {
+            "animationIntervalId" : null,
+            "animationDateIndex" : 0,
             "handedness" : "right",
             "production_filter" : {
                 "show_mvp": true,
@@ -1093,6 +1146,6 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
  });
 </script>
 <script data-goatcounter="https://flight-chart.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+        async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
