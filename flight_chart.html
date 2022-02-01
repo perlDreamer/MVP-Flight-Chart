@@ -143,7 +143,7 @@
     <text class="rim" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
     <text class="rim" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 </g>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" :current_date="current_date" :horizontal_row_bias="horizontal_row_bias" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" :current_date="current_date" :beading="beading" :horizontal_row_bias="horizontal_row_bias" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <b-row>
     <b-col cols="2">
@@ -154,6 +154,7 @@
     </b-col>
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
+        <b-form-select v-model="beading" :options="beading_options"></b-form-select>
         <b-form-select v-model="current_date" :options="significant_dates"></b-form-select>
         <b-button variant="info" @click="animateDates">Animate dates</b-button>
         <b-button variant="danger" @click="resetDates" v-if="animationIntervalId">Stop</b-button>
@@ -181,6 +182,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
 <span v-for="plastic in info_disc.plastics">{{plastic}}<br></span>
 </p>
 <p v-if="info_disc.approved">PDGA Approved: {{info_disc.approved}}</p>
+<p v-if="info_disc.beaded">This disc has a beaded rim.</p>
 </b-modal>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
@@ -189,11 +191,11 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
 <script type="text/javascript">
 'use strict';
  Vue.component("lid", {
-    template : `<g v-bind:class="disc_style" :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, disc)" @click="openModal()">
+    template : `<g v-bind:class="disc_style" :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, beading, disc)" @click="openModal()">
 <circle :cx="disc_area" :cy="row_height/2" :r="disc_radius" />
 <text :y="row_height/2" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
 </g>`,
-    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date'],
+    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading'],
     data() {
         return {
             "disc_radius" : 30,
@@ -224,7 +226,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             this.$emit('pickeddisc');
             this.$bvModal.show("extended-disc-info");
         },
-        handle_filter(production_filter, plastic_filter, current_date, disc) {
+        handle_filter(production_filter, plastic_filter, current_date, beading, disc) {
             if (disc.oop && !production_filter.show_oop) {
                 return false;
             }
@@ -238,6 +240,12 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 return false;
             }
             if (disc.approved > current_date) {
+                return false;
+            }
+            if (beading == "beaded" && ! disc.beaded) {
+                return false;
+            }
+            if (beading == "unbeaded" && disc.beaded) {
                 return false;
             }
             if (plastic_filter == "All Plastics") {
@@ -395,6 +403,12 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         return {
             "animationIntervalId" : null,
             "animationDateIndex" : 0,
+            "beading" : null,
+            "beading_options" : [
+                { "value" : null, "text" : "Beaded or unbeaded" },
+                { "value" : "beaded", "text" : "Beaded" },
+                { "value" : "unbeaded", "text" : "Unbeaded" },
+            ],
             "handedness" : "right",
             "production_filter" : {
                 "show_mvp": true,
@@ -478,6 +492,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  2, "glide" : 4, "turn" : 0, "fade" : 1,
                     "x" : 42.7, "width" : "9",
                     "oop" : false,
+                    "beaded" : true,
                     "plastics" : ["Electron", "Plasma","R2"],
                     "approved" : new Date("Mar 22, 2021")
                 },
@@ -496,6 +511,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  2, "glide" : 5, "turn" : 0, "fade" : 1,
                     "x" : 61.24, "width" : "9",
                     "oop" : false,
+                    "beaded" : true,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Eclipse", "Cosmic Electron"],
                     "approved" : new Date("Feb 22, 2017")
                 },
@@ -505,6 +521,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  3, "glide" : 3, "turn" : 0, "fade" : 2.5,
                     "x" : 5.43, "width" : "10",
                     "oop" : true,
+                    "beaded" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Jun 11, 2017"),
                     "oop_date" : new Date("Aug 29, 2019"),
@@ -560,6 +577,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  2.5, "glide" : 3, "turn" : 0, "fade" : 1.5,
                     "x" : 27, "width" : "11",
                     "oop" : false,
+                    "beaded" : true,
                     "plastics" : ["Neutron", "R2", "Proton", "Plasma", "Eclipse", "Electron"],
                     "approved" : new Date("Sep 14, 2009")
                 },
@@ -609,6 +627,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  4, "glide" : 4, "turn" : -0.5, "fade" : 0.5,
                     "x" : 51.70, "width" : "12",
                     "oop" : true,
+                    "beaded" : true,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Electron"],
                     "approved" : new Date("Feb 22, 2013"),
                     "oop_date" : new Date("Aug 29, 2019"),
@@ -640,6 +659,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  5, "glide" : 4, "turn" : 0, "fade" : 2,
                     "x" : 26.70, "width" : "13",
                     "oop" : true,
+                    "beaded" : true,
                     "plastics" : ["Neutron", "Plasma", "Proton", "Eclipse"],
                     "approved" : new Date("Dec 18, 2010"),
                     "oop_date" : new Date("Aug 29, 2019"),
@@ -678,6 +698,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  5, "glide" : 5, "turn" : -1, "fade" : 1,
                     "x" : 64.20, "width" : "13",
                     "oop" : true,
+                    "beaded" : true,
                     "plastics" : ["Neutron", "Proton", "Eclipse"],
                     "approved" : new Date("Jul 15, 2011"),
                     "oop_date" : new Date("Aug 29, 2019"),
