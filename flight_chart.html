@@ -164,6 +164,7 @@
         <b-form-checkbox v-model="production_filter.show_mvp" size="lg" switch>MVP ({{disc_stats.quantity_mvp}})</b-form-checkbox>
         <b-form-checkbox v-model="production_filter.show_axiom" size="lg" switch>Axiom ({{disc_stats.quantity_axiom}})</b-form-checkbox>
         <b-form-checkbox v-model="production_filter.show_streamline" size="lg" switch>Streamline ({{disc_stats.quantity_streamline}})</b-form-checkbox>
+        <b-button variant="success" @click="resetFilters">Reset All Filters</b-button>
     </b-col>
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
@@ -358,6 +359,22 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 return;
             }
             self.current_date = self.significant_dates[self.animationDateIndex].value;
+        },
+        resetFilters() {
+            let self = this;
+            //reset to right handedness
+            if (self.handedness !== "right") {
+                self.handedness = "left";
+                self.swap_handedness();
+            }
+            self.sort_rims_by_width();
+            self.production_filter.show_mvp = true;
+            self.production_filter.show_axiom = true;
+            self.production_filter.show_streamline = true;
+            self.production_filter.show_oop = true;
+            self.plastic_filter = "All Plastics";
+            self.resetDates();
+            self.beading = null;
         },
         resetDates() {
             let self = this;
