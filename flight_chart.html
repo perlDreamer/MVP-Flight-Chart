@@ -65,6 +65,12 @@
             stroke-width:2px
         }
 
+        text.legend {
+            font-size: 24px;
+            font-weight: bold;
+            stroke: black;
+        }
+
         text.rim {
             font-size: 18px;
             font-weight: bold;
@@ -119,7 +125,14 @@
     </marker>
 </defs>
 <rect x="0" y="0" :width="svg_width" :height="svg_width" fill="white" stroke-width="4px" stroke="black"></rect>
-<rect x="0" :y="0" :width="svg_width" height="50px" fill="url(#stabilityGradient)"></rect>
+<rect x="0" y="0" :width="svg_width" height="50px" fill="url(#stabilityGradient)"></rect>
+<g id="Legend">
+    <rect x="110" y="1006" width="105" height="275" fill="white" stroke-width="6px" stroke="black"></rect>
+    <text         x="120"      y="1031" class="legend">Legend</text>
+    <frisbee disc_x="162" disc_y="1080" disc_name="MVP" disc_class="mvp"/>
+    <frisbee disc_x="162" disc_y="1155" disc_name="Axiom" disc_class="axiom"/>
+    <frisbee disc_x="162" disc_y="1230" disc_name="Streamline" disc_class="streamline"/>
+</g>
 <g class="sort" transform="translate(10,5)" @click="sort_rims_by_width">
     <rect />
     <line x1="15" y1="32" x2="15" y2="15" marker-end="url(#arrowhead)"/>
@@ -159,7 +172,7 @@
         <b-button variant="info" @click="animateDates">Animate dates</b-button>
         <b-button variant="danger" @click="resetDates" v-if="animationIntervalId">Stop</b-button>
     </b-col>
-    <b-col cols="2">
+    <b-col cols="3">
         <b>Statistics</b><br>
         Putters: {{disc_stats.quantity_putters}}<br>
         Midranges: {{disc_stats.quantity_mids}}<br>
@@ -190,19 +203,28 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 <script type="text/javascript">
 'use strict';
- Vue.component("lid", {
-    template : `<g v-bind:class="disc_style" :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, beading, disc)" @click="openModal()">
-<circle :cx="disc_area" :cy="row_height/2" :r="disc_radius" />
-<text :y="row_height/2" :x="disc_area" text-anchor="middle" dominant-baseline="middle" :textLength="disc.name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc.name}}</text>
-</g>`,
-    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading'],
+ Vue.component("frisbee", {
+    template: `<g :class="disc_class">
+<circle :cx="disc_x" :cy="disc_y" :r="disc_radius" />
+<text :x="disc_x" :y="disc_y" text-anchor="middle" dominant-baseline="middle" :textLength="disc_name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc_name}}</text>`,
+    props : ['disc_x', 'disc_y', 'disc_name', 'disc_class'],
     data() {
         return {
             "disc_radius" : 32,
-            "disc_area" : 30,
             "text_area" : 36,
         }
     },
+ });
+ Vue.component("lid", {
+    template : `<g :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, beading, disc)" @click="openModal()">
+<frisbee :disc_class="disc_style" :disc_x="disc_area" :disc_y="row_height/2" :disc_name="disc.name" />
+</g>`,
+    data() {
+        return {
+            "disc_area" : 30,
+        }
+    },
+    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading'],
     computed: {
         disc_style() {
             let self = this;
