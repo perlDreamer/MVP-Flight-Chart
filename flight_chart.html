@@ -127,11 +127,11 @@
 <rect x="0" y="0" :width="svg_width" :height="svg_width" fill="white" stroke-width="4px" stroke="black"></rect>
 <rect x="0" y="0" :width="svg_width" height="50px" fill="url(#stabilityGradient)"></rect>
 <g id="Legend">
-    <rect x="110" y="1006" width="105" height="275" fill="white" stroke-width="6px" stroke="black"></rect>
-    <text         x="120"      y="1031" class="legend">Legend</text>
-    <frisbee disc_x="162" disc_y="1080" disc_name="MVP" disc_class="mvp"/>
-    <frisbee disc_x="162" disc_y="1155" disc_name="Axiom" disc_class="axiom"/>
-    <frisbee disc_x="162" disc_y="1230" disc_name="Streamline" disc_class="streamline"/>
+    <rect         x="110"      :y="legend_top" width="105" height="275" fill="white" stroke-width="6px" stroke="black"></rect>
+    <text         x="120"      :y="legend_top + 25" class="legend">Legend</text>
+    <frisbee disc_x="162" :disc_y="legend_top + 74" disc_name="MVP" disc_class="mvp"/>
+    <frisbee disc_x="162" :disc_y="legend_top + 149" disc_name="Axiom" disc_class="axiom"/>
+    <frisbee disc_x="162" :disc_y="legend_top + 224" disc_name="Streamline" disc_class="streamline"/>
 </g>
 <g class="sort" transform="translate(10,5)" @click="sort_rims_by_width">
     <rect />
@@ -160,11 +160,11 @@
 </svg>
 <b-row>
     <b-col cols="2">
+        <b-button variant="success" @click="resetFilters">Reset All Filters</b-button>
         <b-form-checkbox v-model="production_filter.show_oop" size="lg" switch>Out of Production ({{disc_stats.quantity_oop}})</b-form-checkbox>
         <b-form-checkbox v-model="production_filter.show_mvp" size="lg" switch>MVP ({{disc_stats.quantity_mvp}})</b-form-checkbox>
         <b-form-checkbox v-model="production_filter.show_axiom" size="lg" switch>Axiom ({{disc_stats.quantity_axiom}})</b-form-checkbox>
         <b-form-checkbox v-model="production_filter.show_streamline" size="lg" switch>Streamline ({{disc_stats.quantity_streamline}})</b-form-checkbox>
-        <b-button variant="success" @click="resetFilters">Reset All Filters</b-button>
     </b-col>
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
@@ -470,6 +470,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "current_date" : Date.now(),
             "significant_dates" : [],
             "svg_width" : 1296,
+            "legend_top" : 1006,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
             "plastics" : ["All Plastics"],
