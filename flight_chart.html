@@ -127,11 +127,11 @@
 <rect x="0" y="0" :width="svg_width" :height="svg_width" fill="white" stroke-width="4px" stroke="black"></rect>
 <rect x="0" y="0" :width="svg_width" height="50px" fill="url(#stabilityGradient)"></rect>
 <g id="Legend">
-    <rect         x="110"      :y="legend_top" width="105" height="275" fill="white" stroke-width="6px" stroke="black"></rect>
+    <rect         x="110"      :y="legend_top" width="105" height="280" fill="white" stroke-width="6px" stroke="black"></rect>
     <text         x="120"      :y="legend_top + 25" class="legend">Legend</text>
-    <frisbee disc_x="162" :disc_y="legend_top + 74" disc_name="MVP" disc_class="mvp"/>
-    <frisbee disc_x="162" :disc_y="legend_top + 149" disc_name="Axiom" disc_class="axiom"/>
-    <frisbee disc_x="162" :disc_y="legend_top + 224" disc_name="Streamline" disc_class="streamline"/>
+    <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 74"  disc_name="MVP" disc_class="mvp"/>
+    <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 154" disc_name="Axiom" disc_class="axiom"/>
+    <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 234" disc_name="Streamline" disc_class="streamline"/>
 </g>
 <g class="sort" transform="translate(10,5)" @click="sort_rims_by_width">
     <rect />
@@ -206,9 +206,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
 'use strict';
  Vue.component("frisbee", {
     template: `<g :class="disc_class">
-<circle :cx="disc_x" :cy="disc_y" :r="disc_radius" />
-<text :x="disc_x" :y="disc_y" text-anchor="middle" dominant-baseline="middle" :textLength="disc_name.length > 4 ? text_area*1.5 : text_area" lengthAdjust="spacingAndGlyphs" >{{disc_name}}</text>`,
-    props : ['disc_x', 'disc_y', 'disc_name', 'disc_class'],
+<circle :cx="disc_x" :cy="disc_y" :r="disc_radius*disc_scale" />
+<text :x="disc_x" :y="disc_y" text-anchor="middle" dominant-baseline="middle" :textLength="(disc_name.length > 4 ? text_area*1.5 : text_area) * disc_scale" lengthAdjust="spacingAndGlyphs" >{{disc_name}}</text>`,
+    props : ['disc_x', 'disc_y', 'disc_name', 'disc_class', 'disc_scale'],
     data() {
         return {
             "disc_radius" : 32,
@@ -218,7 +218,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
  });
  Vue.component("lid", {
     template : `<g :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, beading, disc)" @click="openModal()">
-<frisbee :disc_class="disc_style" :disc_x="disc_area" :disc_y="row_height/2" :disc_name="disc.name" />
+<frisbee :disc_class="disc_style" :disc_x="disc_area" :disc_y="row_height/2" :disc_name="disc.name" disc_scale="1.0"/>
 </g>`,
     data() {
         return {
@@ -474,7 +474,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "current_date" : Date.now(),
             "significant_dates" : [],
             "svg_width" : 1296,
-            "legend_top" : 1006,
+            "legend_top" : 1000,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
             "plastics" : ["All Plastics"],
