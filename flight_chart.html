@@ -26,7 +26,7 @@
 
         g.axiom circle {
             stroke-width: 4px;
-            stroke: lightblue;
+            stroke: blue;
             fill: yellow;
         }
         g.axiom text {
@@ -382,6 +382,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             self.current_date = self.significant_dates[0].value;
             self.animationIntervalId = null;
         },
+        setup_filters_from_url() {
+            let self = this;
+        },
         glean_information_from_discs() {
             let self = this;
             let _dates = [];
@@ -438,6 +441,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     mounted() {
         this.info_disc = this.discs[0];
         this.glean_information_from_discs();
+        this.setup_filters_from_url();
     },
     data() {
         return {
