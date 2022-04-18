@@ -384,6 +384,22 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         },
         setup_filters_from_url() {
             let self = this;
+            let _filter_params = ['show_oop', 'show_mvp', 'show_axiom', 'show_streamline'];
+            let has_production_filter = false;
+            let url = new URL(window.location.href);
+            _filter_params.forEach((param) => {
+                if(url.searchParams.has(param)) {
+                    has_production_filter = true;
+                }
+            });
+            if (has_production_filter) {
+                _filter_params.forEach((param) => {
+                    self.production_filter[param] = false;
+                    if(url.searchParams.has(param)) {
+                        self.production_filter[param] = true;
+                    }
+                });
+            }
         },
         glean_information_from_discs() {
             let self = this;
