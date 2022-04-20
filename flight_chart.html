@@ -195,6 +195,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
 <p><b>Plastics:</b><br>
 <span v-for="plastic in info_disc.plastics">{{plastic}}<br></span>
 </p>
+<p><a :href="disc_home_page" target="new">Disc Home Page</a></p>
 <p v-if="info_disc.approved">PDGA Approved: {{info_disc.approved}}</p>
 <p v-if="info_disc.beaded">This disc has a beaded rim.</p>
 </b-modal>
@@ -239,7 +240,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 style['fadein'] = true;
             }
             return style;
-        }
+        },
     },
     methods: {
         center_disc_vertically(y, row_height) {
@@ -283,6 +284,25 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
  });
  new Vue({
     "el" : "#chart",
+    computed : {
+        disc_home_page() {
+            let self = this;
+            let server_name = '';
+            if (! self.info_disc.name) {
+                return '';
+            }
+            if (self.info_disc.brand == 'mvp') {
+                server_name = 'https://www.mvpdiscsports.com/';
+            }
+            else if (self.info_disc.brand == 'axiom') {
+                server_name = 'https://www.axiomdiscs.com/';
+            }
+            else {
+                server_name = 'https://www.streamlinediscs.com/';
+            }
+            return server_name + 'discs/' + self.info_disc.name.toLowerCase() + '/';
+        }
+    },
     methods : {
         discPicked(disc) {
             this.info_disc = disc;
