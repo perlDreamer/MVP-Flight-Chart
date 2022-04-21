@@ -123,6 +123,11 @@
     <marker id="arrowhead" markerWidth="5" markerHeight="5" ref0="0" refY="2.5" orient="auto">
         <polygon points="0 0, 5 2.5, 0 5" />
     </marker>
+    <g id="vertical_sort_icon" class="sort">
+        <rect />
+        <line x1="15" y1="32" x2="15" y2="15" marker-end="url(#arrowhead)"/>
+        <line x1="25" y1="8" x2="25" y2="25"  marker-end="url(#arrowhead)"/>
+    </g>
 </defs>
 <rect x="0" y="0" :width="svg_width" :height="svg_width" fill="white" stroke-width="4px" stroke="black"></rect>
 <rect x="0" y="0" :width="svg_width" height="50px" fill="url(#stabilityGradient)"></rect>
@@ -133,15 +138,11 @@
     <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 154" disc_name="Axiom" disc_class="axiom"/>
     <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 234" disc_name="Streamline" disc_class="streamline"/>
 </g>
-<g class="sort" transform="translate(10,5)" @click="sort_rims_by_width">
-    <rect />
-    <line x1="15" y1="32" x2="15" y2="15" marker-end="url(#arrowhead)"/>
-    <line x1="25" y1="8" x2="25" y2="25"  marker-end="url(#arrowhead)"/>
+<g transform="translate(10,5)" @click="sort_rims_by_width">
+    <use href="#vertical_sort_icon"></use>
 </g>
 <g class="sort" transform="translate(1246,5)" @click="sort_rims_by_speed">
-    <rect />
-    <line x1="15" y1="32" x2="15" y2="15" marker-end="url(#arrowhead)"/>
-    <line x1="25" y1="8" x2="25" y2="25"  marker-end="url(#arrowhead)"/>
+    <use href="#vertical_sort_icon"></use>
 </g>
 <text class="stability" :x="(svg_width-1150)/2" y="25px" dominant-baseline="middle">Over</text>
 <text class="stability" :x="svg_width/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
