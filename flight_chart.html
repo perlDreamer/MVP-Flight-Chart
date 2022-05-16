@@ -458,11 +458,48 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             self.plastics.sort();
             self.current_date = self.significant_dates[0].value;
         },
+        store_filter_settings() {
+            let self = this;
+            let this_filter = {
+                production_filter : self.production_filter,
+                beading: self.beading,
+                plastic_filter: self.plastic_filter,
+            };
+            window.sessionStorage.setItem('dfc_filter_settings', JSON.stringify(this_filter));
+        }
     },
     mounted() {
         this.info_disc = this.discs[0];
         this.glean_information_from_discs();
         this.setup_filters_from_url();
+        let this_filter = null;
+        try {
+            var dfc_filter_settings = window.sessionStorage.getItem('dfc_filter_settings');
+            this_filter = JSON.parse(dfc_filter_settings);
+        }
+        catch(e) {}
+        if (typeof(this_filter) == 'object' && this_filter !== null) {
+            this.production_filter = this_filter.production_filter;
+            this.beading = this_filter.beading || null;
+            this.plastic_filter = this_filter.plastic_filter || "All Plastics";
+        }
+    },
+    watch: {
+        production_filter: {
+            handler() {
+                this.store_filter_settings();
+            },
+            deep : true,
+        },
+        beading() {
+            this.store_filter_settings();
+        },
+        plastics() {
+            this.store_filter_settings();
+        },
+        current_date() {
+            this.store_filter_settings();
+        }
     },
     data() {
         return {
