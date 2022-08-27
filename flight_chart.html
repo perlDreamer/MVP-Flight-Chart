@@ -105,6 +105,8 @@
 </head>
 <body>
 <div id="chart">
+<b-tabs>
+<b-tab title="Chart" active>
 <div class="pagewidth">
 <h1>INTERACTIVE MVP NETWORK FLIGHT CHART</h1>
 <h3>Unofficial, fan-made, not-at-all-approved by MVP, Axiom or Streamline</h3>
@@ -203,6 +205,32 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
 <p v-if="info_disc.approved">PDGA Approved: {{info_disc.approved}}</p>
 <p v-if="info_disc.beaded">This disc has a beaded rim.</p>
 </b-modal>
+</b-tab>
+<b-tab title="Table">
+<div style="width: 100%;">
+<h1>INTERACTIVE MVP NETWORK DISC TABLE</h1>
+<h3>Unofficial, fan-made, not-at-all-approved by MVP, Axiom or Streamline</h3>
+</div>
+<b-row>
+    <b-col cols="4">
+        <b-form-group label="Manufacturer" label-size="lg">
+            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_mvp"        size="lg" switch inline>MVP ({{disc_stats.quantity_mvp}})</b-form-checkbox>
+            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_axiom"      size="lg" switch inline>Axiom ({{disc_stats.quantity_axiom}})</b-form-checkbox>
+            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_streamline" size="lg" switch inline>Streamline ({{disc_stats.quantity_streamline}})</b-form-checkbox>
+        </b-form-group>
+    </b-col>
+    <b-col cols="2">
+        <b-form-group label="Plastics" label-size="lg">
+            <b-form-select v-model="plastic_filter" :options="plastics" @change="filterDiscs"></b-form-select>
+        </b-form-group>
+    </b-col>
+</b-row>
+<b-table striped :fields="disc_fields" :items="filtered_discs" sticky-header="70vh" no-provider-sorting="true" ref="discTable">
+    <template #cell(flight_numbers)="data">
+    {{ data.item.speed }} / {{ data.item.glide }} / {{ data.item.turn }} / {{ data.item.fade }}
+    </template>
+</b-table>
+</b-tab>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 <script src="https://unpkg.com/bootstrap-vue@2.19.0/dist/bootstrap-vue.min.js"></script>
@@ -308,6 +336,26 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         }
     },
     methods : {
+        filterDiscs() {
+            this.$refs.discTable.refresh();
+        },
+        filtered_discs() {
+            let self = this;
+            let filteredDiscs = [];
+            self.discs.forEach((disc) => {
+                let plastic_match = self.plastic_filter == "All Plastics" || disc.plastics.includes(self.plastic_filter);
+                if (disc.brand == "mvp" && self.production_filter.show_mvp && plastic_match) {
+                    filteredDiscs.push(disc);
+                }
+                if (disc.brand == "axiom" && self.production_filter.show_axiom && plastic_match) {
+                    filteredDiscs.push(disc);
+                }
+                if (disc.brand == "streamline" && self.production_filter.show_streamline && plastic_match) {
+                    filteredDiscs.push(disc);
+                }
+            });
+            return filteredDiscs;
+        },
         discPicked(disc) {
             this.info_disc = disc;
         },
@@ -486,6 +534,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             this.beading = this_filter.beading || null;
             this.plastic_filter = this_filter.plastic_filter || "All Plastics";
         }
+        this.$refs.discTable.refresh();
     },
     watch: {
         production_filter: {
@@ -532,6 +581,30 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 "quantity_fairways" : 0,
                 "quantity_distance" : 0,
             },
+            "disc_fields" : [
+                {
+                    "key" : "name",
+                },
+                {
+                    "key" : "brand",
+                    "label" : "Manufacturer",
+                    "formatter" : value => {
+                        if (value == "mvp") {
+                            return "MVP";
+                        }
+                        else if (value == "axiom") {
+                            return "Axiom";
+                        }
+                        else {
+                            return "Streamline";
+                        }
+                    }
+                },
+                {
+                    "key" : "flight_numbers",
+                    "label" : "Flight Numbers",
+                },
+            ],
             "current_date" : Date.now(),
             "significant_dates" : [],
             "svg_width" : 1296,
