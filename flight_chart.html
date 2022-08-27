@@ -223,6 +223,11 @@
             <b-form-select v-model="beading" :options="beading_options" @change="filterDiscs"></b-form-select>
         </b-form-group>
     </b-col>
+    <b-col cols="2">
+        <b-form-group label="Disc Type" label-size="lg">
+            <b-form-select v-model="disc_type" :options="disc_types" @change="filterDiscs"></b-form-select>
+        </b-form-group>
+    </b-col>
 </b-row>
 <b-table striped :fields="disc_fields" :items="filtered_discs" sticky-header="70vh" no-provider-sorting="true" ref="discTable">
     <template #cell(flight_numbers)="disc">
@@ -350,13 +355,16 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             self.discs.forEach((disc) => {
                 let plastic_match = self.plastic_filter == "All Plastics" || disc.plastics.includes(self.plastic_filter);
                 let beading_match = self.beading == null || (self.beading == "beaded" && disc.beaded) || (self.beading == "unbeaded" && !disc.beaded);
-                if (disc.brand == "mvp" && self.production_filter.show_mvp && plastic_match && beading_match) {
+                if(! (plastic_match && beading_match)) {
+                    return;
+                }
+                if (disc.brand == "mvp" && self.production_filter.show_mvp) {
                     filteredDiscs.push(disc);
                 }
-                if (disc.brand == "axiom" && self.production_filter.show_axiom && plastic_match && beading_match) {
+                if (disc.brand == "axiom" && self.production_filter.show_axiom) {
                     filteredDiscs.push(disc);
                 }
-                if (disc.brand == "streamline" && self.production_filter.show_streamline && plastic_match && beading_match) {
+                if (disc.brand == "streamline" && self.production_filter.show_streamline) {
                     filteredDiscs.push(disc);
                 }
             });
@@ -584,6 +592,14 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 { "value" : null, "text" : "Beaded or unbeaded" },
                 { "value" : "beaded", "text" : "Beaded" },
                 { "value" : "unbeaded", "text" : "Unbeaded" },
+            ],
+            "disc_type" : null,
+            "disc_types" : [
+                { "value" : null, "text" : "All" },
+                { "value" : "putter",   "text" : "Putters" },
+                { "value" : "midrange", "text" : "Midranges" },
+                { "value" : "fairway",  "text" : "Fairway Drivers" },
+                { "value" : "distance", "text" : "Distance Drivers" },
             ],
             "handedness" : "right",
             "production_filter" : {
