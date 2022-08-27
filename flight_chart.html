@@ -226,8 +226,22 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     </b-col>
 </b-row>
 <b-table striped :fields="disc_fields" :items="filtered_discs" sticky-header="70vh" no-provider-sorting="true" ref="discTable">
-    <template #cell(flight_numbers)="data">
-    {{ data.item.speed }} / {{ data.item.glide }} / {{ data.item.turn }} / {{ data.item.fade }}
+    <template #cell(flight_numbers)="disc">
+    {{ disc.item.speed }} / {{ disc.item.glide }} / {{ disc.item.turn }} / {{ disc.item.fade }}
+    </template>
+    <template #cell(disc_details)="disc">
+        <b-button size="sm" @click="disc.toggleDetails">Details</b-button>
+    </template>
+    <template #row-details="disc">
+        <b-card>
+            <p v-if="disc.item.oop" class="oop">Out of Production</p>
+            <p>{{disc.item.speed}} | {{disc.item.glide}} | {{disc.item.turn}} | {{disc.item.fade}} </p>
+            <p><b>Plastics:</b><br>
+            <span v-for="plastic in disc.item.plastics">{{plastic}}<br></span>
+            </p>
+            <p v-if="disc.item.approved">PDGA Approved: {{disc.item.approved}}</p>
+            <p v-if="disc.item.beaded">This disc has a beaded rim.</p>
+        </b-card>
     </template>
 </b-table>
 </b-tab>
@@ -603,6 +617,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 {
                     "key" : "flight_numbers",
                     "label" : "Flight Numbers",
+                },
+                {
+                    "key" : "disc_details",
+                    "label" : "Disc Details",
                 },
             ],
             "current_date" : Date.now(),
