@@ -185,15 +185,6 @@
         Total discs: {{disc_stats.total_discs}}
     </b-col>
 </b-row>
-<div>
-Like the chart?  <a href="https://ko-fi.com/huckthesegames">Buy me a KoFi</a>
-</div>
-<div class="pagewidth">
-Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
-</div>
-<div class="pagewidth">
-Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Scott, Joe Notch, Jason Wurst, Josh Greenwald and /u/Coja_ for feedback, fixes and suggestions.
-</div>
 <b-modal size="sm" id="extended-disc-info" centered hide-footer>
 <template #modal-title>{{info_disc.brand == 'mvp' ? 'MVP' : info_disc.brand == 'axiom' ? 'Axiom' : 'Streamline'}}: {{info_disc.name}}</template>
 <p v-if="info_disc.oop" class="oop">Out of Production</p>
@@ -254,6 +245,16 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     </template>
 </b-table>
 </b-tab>
+</b-tabs>
+<div>
+Like the chart and table?  <a href="https://ko-fi.com/huckthesegames">Buy me a KoFi</a>
+</div>
+<div>
+Designed by Colin Kuskie.  Inspired by the "Unofficial fan-made, not-at-all-approved-by-MVP GYRO DISC FLIGHT COMPARISON CHART" by Kyle McClure.
+</div>
+<div>
+Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Scott, Joe Notch, Jason Wurst, Josh Greenwald and /u/Coja_ for feedback, fixes and suggestions.
+</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 <script src="https://unpkg.com/bootstrap-vue@2.19.0/dist/bootstrap-vue.min.js"></script>
