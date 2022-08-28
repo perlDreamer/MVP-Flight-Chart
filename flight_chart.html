@@ -355,7 +355,13 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             self.discs.forEach((disc) => {
                 let plastic_match = self.plastic_filter == "All Plastics" || disc.plastics.includes(self.plastic_filter);
                 let beading_match = self.beading == null || (self.beading == "beaded" && disc.beaded) || (self.beading == "unbeaded" && !disc.beaded);
-                if(! (plastic_match && beading_match)) {
+                let type_match = self.disc_type == null
+                              || (self.disc_type == "putter"   && disc.width < 11.5)
+                              || (self.disc_type == "midrange" && disc.width > 11.5  && disc.width < 15   )
+                              || (self.disc_type == "fairway"  && disc.width > 15    && disc.width < 18.25)
+                              || (self.disc_type == "distance" && disc.width > 18.25)
+                              ;
+                if(! (plastic_match && beading_match && type_match)) {
                     return;
                 }
                 if (disc.brand == "mvp" && self.production_filter.show_mvp) {
