@@ -229,9 +229,9 @@
         </b-form-group>
     </b-col>
 </b-row>
-<b-table striped :fields="disc_fields" :items="filtered_discs" sticky-header="70vh" no-provider-sorting="true" ref="discTable">
+<b-table striped :fields="disc_fields" :items="filtered_discs" sticky-header="70vh" ref="discTable">
     <template #cell(flight_numbers)="disc">
-    {{ disc.item.speed }} / {{ disc.item.glide }} / {{ disc.item.turn }} / {{ disc.item.fade }}
+    {{ disc.item.speed }} / {{ disc.item.glide }} / {{ disc.item.turn }} / {{ disc.item.fade }} [{{disc.item.disc_index}}]
     </template>
     <template #cell(disc_details)="disc">
         <b-button size="sm" @click="disc.toggleDetails">Details</b-button>
@@ -349,7 +349,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         filterDiscs() {
             this.$refs.discTable.refresh();
         },
-        filtered_discs() {
+        filtered_discs(ctx) {
             let self = this;
             let filteredDiscs = [];
             self.discs.forEach((disc) => {
@@ -374,6 +374,29 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     filteredDiscs.push(disc);
                 }
             });
+            if (ctx.sortBy) {
+                if (ctx.sortBy == "name") {
+                    if (ctx.sortDesc) {
+                        filteredDiscs.sort((a,b) => (b.name > a.name) ? 1 : ((a.name > b.name) ? -1 : 0));
+                    } else {
+                        filteredDiscs.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
+                    }
+                }
+                else if (ctx.sortBy == "brand") {
+                    if (ctx.sortDesc) {
+                        filteredDiscs.sort((a,b) => (b.brand > a.brand) ? 1 : ((a.brand > b.brand) ? -1 : 0));
+                    } else {
+                        filteredDiscs.sort((a,b) => (a.brand > b.brand) ? 1 : ((b.brand > a.brand) ? -1 : 0));
+                    }
+                }
+                else { //Speed
+                    if (ctx.sortDesc) {
+                        filteredDiscs.sort((a,b) => b.disc_index - a.disc_index);
+                    } else {
+                        filteredDiscs.sort((a,b) => a.disc_index - b.disc_index);
+                    }
+                }
+            }
             return filteredDiscs;
         },
         discPicked(disc) {
@@ -497,7 +520,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             let self = this;
             let _dates = [];
             let seen_dates = {};
-            self.discs.forEach((disc) => {
+            self.discs.forEach((disc, disc_index) => {
+                disc.disc_index = disc_index;
                 if (disc.oop) {
                     self.disc_stats.quantity_oop = self.disc_stats.quantity_oop + 1;
                     if (! seen_dates[disc.oop_date.getTime()]) {
@@ -628,9 +652,11 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "disc_fields" : [
                 {
                     "key" : "name",
+                    "sortable" : true,
                 },
                 {
                     "key" : "brand",
+                    "sortable" : true,
                     "label" : "Manufacturer",
                     "formatter" : value => {
                         if (value == "mvp") {
@@ -647,6 +673,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 {
                     "key" : "flight_numbers",
                     "label" : "Flight Numbers",
+                    "sortable" : true,
                 },
                 {
                     "key" : "disc_details",
