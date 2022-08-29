@@ -404,6 +404,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         },
         disc_home_page(info_disc) {
             let server_name = '';
+            if (info_disc.hasOwnProperty("home_page")) {
+                return info_disc.home_page;
+            }
             if (! info_disc.name) {
                 return '';
             }
@@ -747,6 +750,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : false,
                     "beaded" : true,
                     "plastics" : ["Electron", "Plasma","R2"],
+                    "weight" : {
+                        "min" : 165,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Mar 22, 2021")
                 },
                 {
@@ -756,6 +763,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 51.94, "width" : "9",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 165,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 20, 2019")
                 },
                 {
@@ -776,6 +787,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "beaded" : true,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 165,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Jun 11, 2017"),
                     "oop_date" : new Date("Aug 29, 2019"),
                 },
@@ -786,6 +801,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 2.0, "width" : "10.5",
                     "oop" : false,
                     "plastics" : ["Electron", "Neutron"],
+                    "weight" : {
+                        "min" : 160,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 27, 2018")
                 },
                 {
@@ -813,6 +832,11 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 47.29, "width" : "10",
                     "oop" : false,
                     "plastics" : ["Neutron", "Proton", "Electron", "Cosmic Electron"],
+                    "weight" : {
+                        "min" : 165,
+                        "max" : 175,
+                    },
+                    "home_page" : "https://mvpdiscsports.com/discs/atom-2/",
                     "approved" : new Date("Dec 7, 2014")
                 },
                 {
@@ -832,6 +856,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : false,
                     "beaded" : true,
                     "plastics" : ["Neutron", "R2", "Proton", "Plasma", "Eclipse", "Electron"],
+                    "weight" : {
+                        "min" : 150,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Sep 14, 2009")
                 },
                 {
@@ -840,6 +868,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  2.5, "glide" : 3, "turn" : 0, "fade" : 0.5,
                     "x" : 55.91, "width" : "11",
                     "oop" : false,
+                    "weight" : {
+                        "min" : 150,
+                        "max" : 175,
+                    },
                     "plastics" : ["Neutron", "R2", "Proton", "Plasma", "Eclipse", "Electron"],
                     "approved" : new Date("Jan 15, 2012")
                 },
@@ -850,6 +882,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 88, "width" : "11",
                     "oop" : false,
                     "plastics" : ["Neutron", "R2", "Proton", "Electron"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Jan 20, 2016")
                 },
                 {
