@@ -189,6 +189,7 @@
 <template #modal-title>{{info_disc.brand == 'mvp' ? 'MVP' : info_disc.brand == 'axiom' ? 'Axiom' : 'Streamline'}}: {{info_disc.name}}</template>
 <p v-if="info_disc.oop" class="oop">Out of Production</p>
 <p>{{info_disc.speed}} | {{info_disc.glide}} | {{info_disc.turn}} | {{info_disc.fade}} </p>
+<p v-if="info_disc.weight">Weight: {{info_disc.weight.min}}-{{info_disc.weight.max}}g</p>
 <p><b>Plastics:</b><br>
 <span v-for="plastic in info_disc.plastics">{{plastic}}<br></span>
 </p>
@@ -240,6 +241,7 @@
         <b-card>
             <p v-if="disc.item.oop" class="oop">Out of Production</p>
             <p>{{disc.item.speed}} | {{disc.item.glide}} | {{disc.item.turn}} | {{disc.item.fade}} </p>
+            <p v-if="disc.item.weight">Weight: {{disc.item.weight.min}}-{{disc.item.weight.max}}g</p>
             <p><b>Plastics:</b><br>
             <span v-for="plastic in disc.item.plastics">{{plastic}}<br></span>
             </p>
@@ -823,6 +825,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 24, "width" : "10",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Eclipse", "Electron", "Cosmic Electron", "Soft Neutron", "Plasma Prism" ],
+                    "weight" : {
+                        "min" : 165,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Jan 12, 2014")
                 },
                 {
@@ -846,6 +852,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 68.22, "width" : "10",
                     "oop" : false,
                     "plastics" : ["Neutron", "Plasma", "Electron", "Soft Neutron", "Cosmic Electron", "Eclipse"],
+                    "weight" : {
+                        "min" : 165,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Sep 24, 2014")
                 },
                 {
@@ -1273,6 +1283,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 1.0, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron", "Plasma"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 22, 2014")
                 },
                 {
@@ -1300,6 +1314,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 31.62, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Fission"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 22, 2014")
                 },
                 {
@@ -1318,6 +1336,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 61.97, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Eclipse 2.0"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 10, 2014")
                 },
                 {
@@ -1345,6 +1367,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 85, "width" : "18.5",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 22, 2014")
                 },
                 {
@@ -1363,6 +1389,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 1.0, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 6, 2015")
                 },
                 {
@@ -1383,6 +1413,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 24.36, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Fission"],
+                    "weight" : {
+                        "min" : 145,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 6, 2015")
                 },
                 {
@@ -1401,6 +1435,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 37, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron", ],
+                    "weight" : {
+                        "min" : 165,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Jul 1, 2022")
                 },
                 {
@@ -1419,6 +1457,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 55.56, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron", "Cosmic Neutron", "Proton", "Plasma", "Fission"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 6, 2015")
                 },
                 {
@@ -1446,6 +1488,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 94.6, "width" : "21",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 155,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Feb 6, 2015")
                 },
                 {
@@ -1455,6 +1501,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 1.0, "width" : "23",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 164,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Jun 6, 2016")
                 },
                 {
@@ -1464,6 +1514,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 21.37, "width" : "23",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 164,
+                        "max" : 175,
+                    },
                     "approved" : new Date("May 13, 2016")
                 },
                 {
@@ -1482,6 +1536,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 45.30, "width" : "23",
                     "oop" : false,
                     "plastics" : ["Neutron", "Proton", "Plasma", "Eclipse", "Fission"],
+                    "weight" : {
+                        "min" : 164,
+                        "max" : 175,
+                    },
                     "approved" : new Date("May 13, 2016")
                 },
                 {
@@ -1500,6 +1558,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 71.37, "width" : "23",
                     "oop" : false,
                     "plastics" : ["Neutron", "Proton", "Plasma"],
+                    "weight" : {
+                        "min" : 164,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Jun 6, 2016")
                 },
                 {
@@ -1519,8 +1581,11 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "oop" : true,
                     "plastics" : ["Neutron"],
                     "approved" : new Date("Apr 13, 2017"),
+                    "weight" : {
+                        "min" : 170,
+                        "max" : 175,
+                    },
                     "oop_date" : new Date("Aug 29, 2019"),
-
                 },
                 {
                     "name" : "Dimension",
@@ -1529,6 +1594,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 16.24, "width" : "24.5",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 170,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Apr 13, 2017")
                 },
                 {
@@ -1556,6 +1625,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 45.73, "width" : "24.5",
                     "oop" : false,
                     "plastics" : ["Neutron"],
+                    "weight" : {
+                        "min" : 170,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Apr 13, 2017")
                 },
                 {
@@ -1574,6 +1647,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 82.05, "width" : "24.5",
                     "oop" : false,
                     "plastics" : ["Neutron", "Proton"],
+                    "weight" : {
+                        "min" : 170,
+                        "max" : 175,
+                    },
                     "approved" : new Date("Apr 13, 2017")
                 },
             ],
