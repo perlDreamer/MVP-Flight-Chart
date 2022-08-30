@@ -159,7 +159,7 @@
     <text class="rim" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
     <text class="rim" :y="calculate_y(index+1)+30" x="1261px" text-anchor="middle" dominant-baseline="middle">{{rim.speed}}</text>
 </g>
-<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" :current_date="current_date" :beading="beading" :horizontal_row_bias="horizontal_row_bias" :production_filter="production_filter" :plastic_filter="plastic_filter" v-on:pickeddisc="discPicked(disc);"></lid>
+<lid v-for="disc in discs" :key="disc.name" :disc="disc" :x="calculate_x(disc)" :y="calculate_y(calculate_row(disc))" :row_height="single_row_height()" :current_date="current_date" :beading="beading" :horizontal_row_bias="horizontal_row_bias" :production_filter="production_filter" :plastic_filter="plastic_filter" :minimum_weight="minimum_weight" v-on:pickeddisc="discPicked(disc);"></lid>
 </svg>
 <b-row>
     <b-col cols="2">
@@ -172,6 +172,7 @@
     <b-col cols="2">
         <b-form-select v-model="plastic_filter" :options="plastics"></b-form-select>
         <b-form-select v-model="beading" :options="beading_options"></b-form-select>
+        <b-form-select v-model="minimum_weight" :options="minimum_weight_options"></b-form-select>
         <b-form-select v-model="current_date" :options="significant_dates"></b-form-select>
         <b-button variant="info" @click="animateDates">Animate dates</b-button>
         <b-button variant="danger" @click="resetDates" v-if="animationIntervalId">Stop</b-button>
@@ -205,16 +206,13 @@
 </div>
 <b-row>
     <b-col cols="1">
-        <b-button variant="success" @click="resetFilters">Reset All Filters</b-button>
-    </b-col>
-    <b-col cols="4">
         <b-form-group label="Manufacturer" label-size="lg">
-            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_mvp"        size="lg" switch inline>MVP ({{disc_stats.quantity_mvp}})</b-form-checkbox>
-            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_axiom"      size="lg" switch inline>Axiom ({{disc_stats.quantity_axiom}})</b-form-checkbox>
-            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_streamline" size="lg" switch inline>Streamline ({{disc_stats.quantity_streamline}})</b-form-checkbox>
+            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_mvp"        size="lg" switch>MVP</b-form-checkbox>
+            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_axiom"      size="lg" switch>Axiom</b-form-checkbox>
+            <b-form-checkbox @change="filterDiscs" v-model="production_filter.show_streamline" size="lg" switch>Streamline</b-form-checkbox>
         </b-form-group>
     </b-col>
-    <b-col cols="2">
+    <b-col cols="1">
         <b-form-group label="Plastics" label-size="lg">
             <b-form-select v-model="plastic_filter" :options="plastics" @change="filterDiscs"></b-form-select>
         </b-form-group>
@@ -224,10 +222,18 @@
             <b-form-select v-model="beading" :options="beading_options" @change="filterDiscs"></b-form-select>
         </b-form-group>
     </b-col>
-    <b-col cols="2">
+    <b-col cols="1">
         <b-form-group label="Disc Type" label-size="lg">
             <b-form-select v-model="disc_type" :options="disc_types" @change="filterDiscs"></b-form-select>
         </b-form-group>
+    </b-col>
+    <b-col cols="2">
+        <b-form-group label="Minimum Weight" label-size="lg">
+            <b-form-select v-model="minimum_weight" :options="minimum_weight_options" @change="filterDiscs"></b-form-select>
+        </b-form-group>
+    </b-col>
+    <b-col cols="1">
+        <b-button variant="success" @click="resetFilters">Reset All Filters</b-button>
     </b-col>
 </b-row>
 <b-table striped :fields="disc_fields" :items="filtered_discs" sticky-header="70vh" ref="discTable">
@@ -281,7 +287,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     },
  });
  Vue.component("lid", {
-    template : `<g :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, beading, disc)" @click="openModal()">
+    template : `<g :transform="'translate('+(x+horizontal_row_bias)+','+y+')'" v-show="handle_filter(production_filter, plastic_filter, current_date, beading, minimum_weight, disc)" @click="openModal()">
 <frisbee :disc_class="disc_style" :disc_x="disc_area" :disc_y="row_height/2" :disc_name="disc.name" disc_scale="1.0"/>
 </g>`,
     data() {
@@ -289,7 +295,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "disc_area" : 30,
         }
     },
-    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading'],
+    props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading', 'minimum_weight'],
     computed: {
         disc_style() {
             let self = this;
@@ -313,7 +319,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             this.$emit('pickeddisc');
             this.$bvModal.show("extended-disc-info");
         },
-        handle_filter(production_filter, plastic_filter, current_date, beading, disc) {
+        handle_filter(production_filter, plastic_filter, current_date, beading, minimum_weight, disc) {
             if (disc.oop && !production_filter.show_oop) {
                 return false;
             }
@@ -333,6 +339,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 return false;
             }
             if (beading == "unbeaded" && disc.beaded) {
+                return false;
+            }
+            if (minimum_weight && disc.weight && (disc.weight.min > minimum_weight)) {
                 return false;
             }
             if (plastic_filter == "All Plastics") {
@@ -363,7 +372,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                               || (self.disc_type == "fairway"  && disc.width > 15    && disc.width < 18.25)
                               || (self.disc_type == "distance" && disc.width > 18.25)
                               ;
-                if(! (plastic_match && beading_match && type_match)) {
+                let weight_match = self.minimum_weight == null || (self.minimum_weight > disc.weight.min);
+                if(! (plastic_match && beading_match && type_match && weight_match)) {
                     return;
                 }
                 if (disc.brand == "mvp" && self.production_filter.show_mvp) {
@@ -580,6 +590,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 production_filter : self.production_filter,
                 beading: self.beading,
                 plastic_filter: self.plastic_filter,
+                minimum_weight: self.minimum_weight,
             };
             window.sessionStorage.setItem('dfc_filter_settings', JSON.stringify(this_filter));
         }
@@ -598,6 +609,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             this.production_filter = this_filter.production_filter;
             this.beading = this_filter.beading || null;
             this.plastic_filter = this_filter.plastic_filter || "All Plastics";
+            this.minimum_weight = this_filter.minimum_weight || null;
         }
         this.$refs.discTable.refresh();
     },
@@ -616,6 +628,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         },
         current_date() {
             this.store_filter_settings();
+        },
+        minimum_weight() {
+            this.store_filter_settings();
         }
     },
     data() {
@@ -627,6 +642,13 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 { "value" : null, "text" : "Beaded or unbeaded" },
                 { "value" : "beaded", "text" : "Beaded" },
                 { "value" : "unbeaded", "text" : "Unbeaded" },
+            ],
+            "minimum_weight" : null,
+            "minimum_weight_options" : [
+                { "value" : null, "text" : "All weights" },
+                { "value" : 170, "text" : "< 170g" },
+                { "value" : 165, "text" : "< 165g" },
+                { "value" : 160, "text" : "< 160g" },
             ],
             "disc_type" : null,
             "disc_types" : [
