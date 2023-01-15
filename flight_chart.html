@@ -615,7 +615,6 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     mounted() {
         this.info_disc = this.discs[0];
         this.glean_information_from_discs();
-        this.setup_filters_from_url();
         let this_filter = null;
         try {
             var dfc_filter_settings = window.sessionStorage.getItem('dfc_filter_settings');
@@ -629,6 +628,8 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             this.minimum_weight = this_filter.minimum_weight || null;
         }
         this.$refs.discTable.refresh();
+        //Override any stored settings
+        this.setup_filters_from_url();
     },
     watch: {
         production_filter: {
