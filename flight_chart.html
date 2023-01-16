@@ -547,6 +547,18 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     }
                 });
             }
+            if (url.searchParams.has('beaded')) {
+                var beadedness = url.searchParams.get('beaded');
+                if (beadedness == "yes") {
+                    self.beading = "beaded";
+                }
+                else if (beadedness == "no") {
+                    self.beading = "unbeaded";
+                }
+                else if (beadedness == "any") {
+                    self.beading = null;
+                }
+            }
         },
         glean_information_from_discs() {
             let self = this;
@@ -610,6 +622,32 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 minimum_weight: self.minimum_weight,
             };
             window.sessionStorage.setItem('dfc_filter_settings', JSON.stringify(this_filter));
+            let searchParams = new URLSearchParams();
+            let _filter_params = ['show_oop', 'show_mvp', 'show_axiom', 'show_streamline'];
+            let has_all_production_filters = true;
+            _filter_params.forEach((param) => {
+                if(! self.production_filter[param]) {
+                    has_all_production_filters = false;
+                }
+            });
+            if (!has_all_production_filters) {
+                _filter_params.forEach((param) => {
+                    if(self.production_filter[param]) {
+                        searchParams.append(param, 1);
+                    }
+                });
+            }
+            if (self.beading !== null) {
+                if (self.beading == "beaded") {
+                    searchParams.append('beaded', 'yes');
+                }
+                else if (self.beading == "unbeaded") {
+                    searchParams.append('beaded', 'no');
+                }
+            }
+            let thisUrl = new URL(window.location.href);
+            thisUrl.search = searchParams.toString();
+            history.replaceState({}, '', thisUrl.toString());
         }
     },
     mounted() {
