@@ -148,7 +148,7 @@
 </g>
 <text class="stability" :x="(svg_width-1150)/2" y="25px" dominant-baseline="middle">Over</text>
 <text class="stability" :x="svg_width/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
-<g class="sort" transform="translate(725,5)" @click="swap_handedness">
+<g class="sort" :transform="'translate('+ (handedness=='right' ? 725 : 530) + ',5)'" @click="swap_handedness">
     <rect />
     <line x1="5" y1="12.5" x2="25" y2="12.5" marker-end="url(#arrowhead)"/>
     <line x1="32" y1="27.5" x2="13" y2="27.5"  marker-end="url(#arrowhead)"/>
@@ -559,6 +559,18 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     self.beading = null;
                 }
             }
+            if (url.searchParams.has('plastics')) {
+                var new_plastic = url.searchParams.get('plastics');
+                if (self.plastics.includes(new_plastic)) {
+                    self.plastic_filter = new_plastic;
+                }
+            }
+            if (url.searchParams.has('handedness')) {
+                let new_handedness = url.searchParams.get('handedness');
+                if (new_handedness == "left") {
+                    self.handedness = "left";
+                }
+            }
         },
         glean_information_from_discs() {
             let self = this;
@@ -620,6 +632,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 beading: self.beading,
                 plastic_filter: self.plastic_filter,
                 minimum_weight: self.minimum_weight,
+                handedness: self.handedness,
             };
             window.sessionStorage.setItem('dfc_filter_settings', JSON.stringify(this_filter));
             let searchParams = new URLSearchParams();
@@ -644,6 +657,12 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                 else if (self.beading == "unbeaded") {
                     searchParams.append('beaded', 'no');
                 }
+            }
+            if (self.plastic_filter !== "All Plastics") {
+                searchParams.append("plastics", self.plastic_filter);
+            }
+            if (self.handedness == "left") {
+                searchParams.append("handedness", "left");
             }
             let thisUrl = new URL(window.location.href);
             thisUrl.search = searchParams.toString();
@@ -679,7 +698,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         beading() {
             this.store_filter_settings();
         },
-        plastics() {
+        plastic_filter() {
             this.store_filter_settings();
         },
         current_date() {
@@ -687,7 +706,10 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
         },
         minimum_weight() {
             this.store_filter_settings();
-        }
+        },
+        handedness() {
+            this.store_filter_settings();
+        },
     },
     data() {
         return {
