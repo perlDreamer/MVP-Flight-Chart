@@ -146,14 +146,14 @@
 <g class="sort" transform="translate(1246,5)" @click="sort_rims_by_speed">
     <use href="#vertical_sort_icon"></use>
 </g>
-<text class="stability" :x="(svg_width-1150)/2" y="25px" dominant-baseline="middle">Over</text>
+<text class="stability" :x="(svg_width-1150)/2" y="25px" dominant-baseline="middle">{{handedness == "right" ? "Over" : "Under"}}</text>
 <text class="stability" :x="svg_width/2" y="25px" dominant-baseline="middle" text-anchor="middle" >Stability</text>
 <g class="sort" :transform="'translate('+ (handedness=='right' ? 725 : 530) + ',5)'" @click="swap_handedness">
     <rect />
     <line x1="5" y1="12.5" x2="25" y2="12.5" marker-end="url(#arrowhead)"/>
     <line x1="32" y1="27.5" x2="13" y2="27.5"  marker-end="url(#arrowhead)"/>
 </g>
-<text class="stability" :x="(svg_width+1150)/2" y="25px" dominant-baseline="middle" text-anchor="end">Under</text>
+<text class="stability" :x="(svg_width+1150)/2" y="25px" dominant-baseline="middle" text-anchor="end">{{handedness == "right" ? "Under" : "Over"}}</text>
 <g v-for="(rim,index) in rims">
     <rect stroke="none" fill="url(#blueGradient)" :y="calculate_y(index+1)" :x="(svg_width - rim.row_width)/2 + horizontal_row_bias" :height="single_row_height()+1" :width="rim.row_width"/>
     <text class="rim" :y="calculate_y(index+1)+30" x="40px" text-anchor="middle" dominant-baseline="middle">{{rim.width}}mm</text>
