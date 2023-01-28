@@ -134,11 +134,12 @@
 <rect x="0" y="0" :width="svg_width" :height="svg_width" fill="white" stroke-width="4px" stroke="black"></rect>
 <rect x="0" y="0" :width="svg_width" height="50px" fill="url(#stabilityGradient)"></rect>
 <g id="Legend">
-    <rect         x="110"      :y="legend_top" width="105" height="280" fill="white" stroke-width="6px" stroke="black"></rect>
+    <rect         x="110"      :y="legend_top" width="105" height="360" fill="white" stroke-width="6px" stroke="black"></rect>
     <text         x="120"      :y="legend_top + 25" class="legend">Legend</text>
     <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 74"  disc_name="MVP" disc_class="mvp"/>
     <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 154" disc_name="Axiom" disc_class="axiom"/>
     <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 234" disc_name="Streamline" disc_class="streamline"/>
+    <frisbee disc_scale="1.15" disc_x="162" :disc_y="legend_top + 314" disc_name="OOP" :disc_class="{mvp : true, oop : true}"/>
 </g>
 <g transform="translate(10,5)" @click="sort_rims_by_width">
     <use href="#vertical_sort_icon"></use>
@@ -788,7 +789,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "current_date" : Date.now(),
             "significant_dates" : [],
             "svg_width" : 1296,
-            "legend_top" : 1000,
+            "legend_top" : 920,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
             "plastics" : ["All Plastics"],
