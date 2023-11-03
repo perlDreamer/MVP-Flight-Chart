@@ -296,6 +296,9 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     data() {
         return {
             "disc_area" : 30,
+            "eclipses"  : ['Eclipse', 'Eclipse 2.0'],
+            "cosmics"   : ['Cosmic Electron', 'Cosmic Neutron'],
+            "neutrons"  : ['Cosmic Neutron', 'Neutron', 'Neutron Soft'],
         }
     },
     props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading', 'minimum_weight'],
@@ -355,6 +358,39 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             }
             if (plastic_filter == "All Plastics") {
                 return true;
+            }
+            if (plastic_filter == "All Eclipse") {
+                let has_plastic = false;
+                this.eclipses.forEach( this_plastic => {
+                    if (disc.plastics.includes(this_plastic)) {
+                        has_plastic = true;
+                    }
+                });
+                if (has_plastic) {
+                    return true;
+                }
+            }
+            if (plastic_filter == "All Cosmic") {
+                let has_plastic = false;
+                this.cosmics.forEach( this_plastic => {
+                    if (disc.plastics.includes(this_plastic)) {
+                        has_plastic = true;
+                    }
+                });
+                if (has_plastic) {
+                    return true;
+                }
+            }
+            if (plastic_filter == "All Neutron") {
+                let has_plastic = false;
+                this.neutrons.forEach( this_plastic => {
+                    if (disc.plastics.includes(this_plastic)) {
+                        has_plastic = true;
+                    }
+                });
+                if (has_plastic) {
+                    return true;
+                }
             }
             if (disc.plastics.includes(plastic_filter)) {
                 return true;
@@ -810,7 +846,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "legend_top" : 920,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
-            "plastics" : ["All Plastics"],
+            "plastics" : ["All Plastics", "All Electron", "All Cosmic", "All Eclipse"],
             "info_disc" : {},
             "rims" : [
                 {
