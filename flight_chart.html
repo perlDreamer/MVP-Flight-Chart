@@ -299,6 +299,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "eclipses"  : ['Eclipse', 'Eclipse 2.0'],
             "cosmics"   : ['Cosmic Electron', 'Cosmic Neutron'],
             "neutrons"  : ['Cosmic Neutron', 'Neutron', 'Neutron Soft'],
+            "protons"   : ['Proton', 'Prism Proton',],
         }
     },
     props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading', 'minimum_weight'],
@@ -384,6 +385,17 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             if (plastic_filter == "All Neutron") {
                 let has_plastic = false;
                 this.neutrons.forEach( this_plastic => {
+                    if (disc.plastics.includes(this_plastic)) {
+                        has_plastic = true;
+                    }
+                });
+                if (has_plastic) {
+                    return true;
+                }
+            }
+            if (plastic_filter == "All Proton") {
+                let has_plastic = false;
+                this.protons.forEach( this_plastic => {
                     if (disc.plastics.includes(this_plastic)) {
                         has_plastic = true;
                     }
@@ -846,7 +858,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "legend_top" : 920,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
-            "plastics" : ["All Plastics", "All Electron", "All Cosmic", "All Eclipse"],
+            "plastics" : ["All Plastics", "All Electron", "All Cosmic", "All Eclipse", "All Proton", ],
             "info_disc" : {},
             "rims" : [
                 {
