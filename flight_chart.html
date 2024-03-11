@@ -199,6 +199,7 @@
 </p>
 <p><a :href="disc_home_page(info_disc)" target="new">Disc Home Page</a></p>
 <p v-if="info_disc.approved">PDGA Approved: {{info_disc.approved}}</p>
+<p v-if="info_disc.oop_date">Out of production: {{info_disc.oop_date}}</p>
 <p v-if="info_disc.beaded">This disc has a beaded rim.</p>
 </b-modal>
 </b-tab>
@@ -256,6 +257,7 @@
             </p>
             <p><a :href="disc_home_page(disc.item)" target="new">Disc Home Page</a></p>
             <p v-if="disc.item.approved">PDGA Approved: {{disc.item.approved}}</p>
+            <p v-if="disc.item.oop_date">PDGA Approved: {{disc.item.oop_date}}</p>
             <p v-if="disc.item.beaded">This disc has a beaded rim.</p>
         </b-card>
     </template>
