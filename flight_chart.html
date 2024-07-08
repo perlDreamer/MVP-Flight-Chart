@@ -192,7 +192,8 @@
 <b-modal size="sm" id="extended-disc-info" centered hide-footer>
 <template #modal-title>{{info_disc.brand == 'mvp' ? 'MVP' : info_disc.brand == 'axiom' ? 'Axiom' : 'Streamline'}}: {{info_disc.name}}</template>
 <p v-if="info_disc.oop" class="oop">Out of Production</p>
-<p>{{info_disc.speed}} | {{info_disc.glide}} | {{info_disc.turn}} | {{info_disc.fade}} </p>
+<p>{{info_disc.speed}} | {{info_disc.glide}} | {{info_disc.turn}} | {{info_disc.fade}}<br>
+<small>Stock flight numbers.  Special runs or plastics might have different flight numbers</small></p>
 <p v-if="info_disc.weight">Weight: {{info_disc.weight.min}}-{{info_disc.weight.max}}g</p>
 <p><b>Plastics:</b><br>
 <span v-for="plastic in info_disc.plastics">{{plastic}}<br></span>
