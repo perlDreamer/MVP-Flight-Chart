@@ -299,10 +299,11 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
     data() {
         return {
             "disc_area" : 30,
-            "eclipses"  : ['Eclipse', 'Eclipse 2.0'],
+            "eclipses"  : ['Eclipse', 'Eclipse 2.0', 'Particle Eclipse'],
             "cosmics"   : ['Cosmic Electron', 'Cosmic Neutron'],
             "neutrons"  : ['Cosmic Neutron', 'Neutron', 'Neutron Soft'],
-            "protons"   : ['Proton', 'Prism Proton',],
+            "protons"   : ['Proton', 'Prism Proton', "Particle Proton", "Particle Proton", "Particle Glow Proton Soft"],
+            "particles" : ["Particle Proton", "Particle Glow Proton", "Particle Glow Proton Soft", "Particle Eclipse"],
         }
     },
     props : ['disc', 'x', 'y', 'row_height', 'horizontal_row_bias', 'production_filter', 'plastic_filter', 'current_date', 'beading', 'minimum_weight'],
@@ -399,6 +400,17 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             if (plastic_filter == "All Proton") {
                 let has_plastic = false;
                 this.protons.forEach( this_plastic => {
+                    if (disc.plastics.includes(this_plastic)) {
+                        has_plastic = true;
+                    }
+                });
+                if (has_plastic) {
+                    return true;
+                }
+            }
+            if (plastic_filter == "All Particle") {
+                let has_plastic = false;
+                this.particles.forEach( this_plastic => {
                     if (disc.plastics.includes(this_plastic)) {
                         has_plastic = true;
                     }
@@ -861,7 +873,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
             "legend_top" : 920,
             "horizontal_row_bias" : 10,
             "plastic_filter" : "All Plastics",
-            "plastics" : ["All Plastics", "All Electron", "All Cosmic", "All Eclipse", "All Proton", ],
+            "plastics" : ["All Plastics", "All Electron", "All Cosmic", "All Eclipse", "All Proton", "All Particle"],
             "info_disc" : {},
             "rims" : [
                 {
@@ -1019,7 +1031,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  2, "glide" : 5, "turn" : 0, "fade" : 1,
                     "x" : 51.94, "width" : "9",
                     "oop" : false,
-                    "plastics" : ["Neutron"],
+                    "plastics" : ["Neutron", "Cosmic Neutron"],
                     "weight" : {
                         "min" : 165,
                         "max" : 175,
@@ -1339,7 +1351,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  5, "glide" : 5, "turn" : -1, "fade" : 1,
                     "x" : 52.84, "width" : "13",
                     "oop" : false,
-                    "plastics" : ["Neutron", "Eclipse 2.0", "Fission", "Plasma", "Watermelon", "Total Eclipse"],
+                    "plastics" : ["Neutron", "Eclipse 2.0", "Fission", "Plasma", "Watermelon", "Total Eclipse", "Particle Eclipse"],
                     "weight" : {
                         "min" : 165,
                         "max" : 179,
@@ -1710,7 +1722,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  9, "glide" : 3.5, "turn" : 0, "fade" : 3.5,
                     "x" : 12.5, "width" : "18.5",
                     "oop" : false,
-                    "plastics" : ["Neutron", "Proton", "Fission"],
+                    "plastics" : ["Neutron", "Proton", "Fission", "Particle Eclipse"],
                     "weight" : {
                         "min" : 155,
                         "max" : 175,
@@ -1775,7 +1787,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "speed" :  9, "glide" : 5, "turn" : -2, "fade" : 2,
                     "x" : 71.79, "width" : "18.5",
                     "oop" : false,
-                    "plastics" : ["Neutron", "Proton", "Plasma", "Cosmic Neutron", "Fission", "R2", "Watermelon", "Eclipse 2.0"],
+                    "plastics" : ["Neutron", "Proton", "Plasma", "Cosmic Neutron", "Fission", "R2", "Watermelon", "Eclipse 2.0", "Particle Proton"],
                     "weight" : {
                         "min" : 155,
                         "max" : 175,
@@ -1828,7 +1840,7 @@ Special thanks to Seth Heasley, Peter Kuskie, RJ Stidham, Justin Hardy, Eric Sco
                     "x" : 48, "width" : "20",
                     "oop" : false,
                     "conrad-disc": true,
-                    "plastics" : ["Neutron", "Fission"],
+                    "plastics" : ["Neutron", "Fission", "Proton"],
                     "weight" : {
                         "min" : 165,
                         "max" : 175,
